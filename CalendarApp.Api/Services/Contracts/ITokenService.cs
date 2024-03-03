@@ -1,4 +1,4 @@
-using CalendarApp.Api.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses;
 
 namespace CalendarApp.Api.Services.Contracts;
 

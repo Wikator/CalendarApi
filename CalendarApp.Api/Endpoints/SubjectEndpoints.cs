@@ -1,8 +1,8 @@
 using AutoMapper;
-using CalendarApp.Api.Data.Repository.Contracts;
-using CalendarApp.Api.Dtos.Requests;
-using CalendarApp.Api.Dtos.Responses;
-using CalendarApp.Api.Entities;
+using CalendarApp.DataAccess.Repository.Contracts;
+using CalendarApp.Models.Dtos.Requests;
+using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 
@@ -24,10 +24,8 @@ public static class SubjectEndpoints
             .RequireAuthorization(new AuthorizeAttribute { Policy = "RequireAdminRole" });
     }
 
-    public static async Task<Ok<IEnumerable<SubjectDto>>> GetAll(IUnitOfWork unitOfWork)
-    {
-        return TypedResults.Ok(await unitOfWork.SubjectRepository.GetAllAsync<SubjectDto>());
-    }
+    public static async Task<Ok<IEnumerable<SubjectDto>>> GetAll(IUnitOfWork unitOfWork) =>
+        TypedResults.Ok(await unitOfWork.SubjectRepository.GetAllAsync<SubjectDto>());
 
     public static async Task<Results<Ok<SubjectDto>, NotFound>> GetById(IUnitOfWork unitOfWork, uint id)
     {

@@ -1,8 +1,8 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using CalendarApp.Api.Dtos.Responses;
 using CalendarApp.Api.Services.Contracts;
+using CalendarApp.Models.Dtos.Responses;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CalendarApp.Api.Services;

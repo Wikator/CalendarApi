@@ -4,3 +4,22 @@ GET {{CalendarApp.Api_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{CalendarApp.Api_HostAddress}}/api/account/register
+Content-Type: application/json
+
+{
+  "username": "Admin",
+  "password": "Pa$$w0rd"
+}
+
+###
+
+POST {{CalendarApp.Api_HostAddress}}/api/subjects
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcwOTQ2OTI5MiwiZXhwIjoxNzEwMDc0MDkyLCJpYXQiOjE3MDk0NjkyOTJ9.aYUWVwRoWRnCm9il5vho268stg0kMVq_2x2WLK72aENrq1iN4FR_lspV4HvNX2Squ7Z427usEv65InMI2DE5Tg
+
+{
+  "name": "Inteligencja obliczeniowa",
+  "facultyType": 0
+}

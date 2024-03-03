@@ -1,9 +1,9 @@
 using AutoMapper;
-using CalendarApp.Api.Data.Repository.Contracts;
-using CalendarApp.Api.Dtos.Requests;
-using CalendarApp.Api.Dtos.Responses;
 using CalendarApp.Api.Endpoints;
-using CalendarApp.Api.Entities;
+using CalendarApp.DataAccess.Repository.Contracts;
+using CalendarApp.Models.Dtos.Requests;
+using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;

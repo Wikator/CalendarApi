@@ -1,8 +1,8 @@
 using AutoMapper;
 using CalendarApp.Api.Configuration;
-using CalendarApp.Api.Data;
-using CalendarApp.Api.Data.Repository;
-using CalendarApp.Api.Entities;
+using CalendarApp.DataAccess;
+using CalendarApp.DataAccess.Repository;
+using CalendarApp.Models.Entities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 

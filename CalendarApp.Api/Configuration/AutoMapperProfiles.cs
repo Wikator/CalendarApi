@@ -1,7 +1,7 @@
 using AutoMapper;
-using CalendarApp.Api.Dtos.Requests;
-using CalendarApp.Api.Dtos.Responses;
-using CalendarApp.Api.Entities;
+using CalendarApp.Models.Dtos.Requests;
+using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Entities;
 
 namespace CalendarApp.Api.Configuration;
 

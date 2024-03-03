@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.Api", "Calendar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.Tests", "CalendarApp.Tests\CalendarApp.Tests.csproj", "{7616F4E0-5524-40C0-8B9E-646A60D5295C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.Models", "CalendarApp.Models\CalendarApp.Models.csproj", "{57D14082-D4EC-44F5-9AAE-B2129BE1E0CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarApp.DataAccess", "CalendarApp.DataAccess\CalendarApp.DataAccess.csproj", "{8C880E2C-3B92-4E73-A8D4-3A94B9EA4ED7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{7616F4E0-5524-40C0-8B9E-646A60D5295C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7616F4E0-5524-40C0-8B9E-646A60D5295C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7616F4E0-5524-40C0-8B9E-646A60D5295C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57D14082-D4EC-44F5-9AAE-B2129BE1E0CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57D14082-D4EC-44F5-9AAE-B2129BE1E0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57D14082-D4EC-44F5-9AAE-B2129BE1E0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57D14082-D4EC-44F5-9AAE-B2129BE1E0CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C880E2C-3B92-4E73-A8D4-3A94B9EA4ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C880E2C-3B92-4E73-A8D4-3A94B9EA4ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C880E2C-3B92-4E73-A8D4-3A94B9EA4ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C880E2C-3B92-4E73-A8D4-3A94B9EA4ED7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

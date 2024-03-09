@@ -7,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
-public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudRepository<T> where T : class, IEntity
+public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
+    IAuthorizedCrudRepository<T> where T : class, IAuthorizedEntity
 {
     protected IMapper Mapper { get; } = mapper;
     protected DbSet<T> Entities { get; } = context.Set<T>();
 
-    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(Expression<Func<T, bool>>? predicate = null)
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(uint id, Expression<Func<T, bool>>? predicate = null)
     {
-        var query = Entities.AsQueryable();
+        var query = Entities.Where(e => e.UserId == id);
 
         if (predicate is not null)
             query = query.Where(predicate);
@@ -22,17 +23,17 @@ public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudReposit
         return await query.ProjectTo<TDto>(Mapper.ConfigurationProvider).ToListAsync();
     }
 
-    public virtual async Task<TDto?> GetByIdAsync<TDto>(uint id)
+    public virtual async Task<TDto?> GetByIdAsync<TDto>(uint id, uint userId)
     {
         return await Entities
-            .Where(e => e.Id == id)
+            .Where(e => e.Id == id && e.UserId == userId)
             .ProjectTo<TDto>(Mapper.ConfigurationProvider)
             .SingleOrDefaultAsync();
     }
 
-    public virtual async Task<T?> GetByIdAsync(uint id)
+    public virtual async Task<T?> GetByIdAsync(uint id, uint userId)
     {
-        return await Entities.FindAsync(id);
+        return await Entities.Where(e => e.UserId == userId && e.Id == id).SingleOrDefaultAsync();
     }
 
     public virtual void Add(T entity)

@@ -6,7 +6,8 @@ public interface IUnitOfWork
 {
     public IUserRepository UserRepository { get; }
     public ICrudRepository<Subject> SubjectRepository { get; }
-    public ICrudRepository<ScheduledClass> ScheduledClassRepository { get; }
+    public IScheduledClassRepository ScheduledClassRepository { get; }
+    public IAuthorizedCrudRepository<Note> NoteRepository { get; }
 
     public Task<bool> SaveChangesAsync();
 }

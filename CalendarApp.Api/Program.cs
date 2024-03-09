@@ -41,6 +41,7 @@ builder.Services.AddAuthorizationBuilder()
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IClaimsProvider, ClaimsProvider>();
 
 var app = builder.Build();
 
@@ -63,5 +64,6 @@ app.UseAuthorization();
 app.MapAccountEndpoints();
 app.MapSubjectEndpoints();
 app.MapScheduledClassEndpoints();
+app.MapNoteEndpoints();
 
 app.Run();

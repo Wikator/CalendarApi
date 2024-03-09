@@ -9,6 +9,16 @@ POST {{CalendarApp.Api_HostAddress}}/api/account/register
 Content-Type: application/json
 
 {
+  "username": "User",
+  "password": "Pa$$w0rd"
+}
+
+###
+
+POST {{CalendarApp.Api_HostAddress}}/api/account/login
+Content-Type: application/json
+
+{
   "username": "Admin",
   "password": "Pa$$w0rd"
 }
@@ -23,3 +33,43 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
   "name": "Inteligencja obliczeniowa",
   "facultyType": 0
 }
+
+###
+
+GET {{CalendarApp.Api_HostAddress}}/api/subjects
+Content-Type: application/json
+
+###
+
+GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcwOTc1NTE2MiwiZXhwIjoxNzEwMzU5OTYyLCJpYXQiOjE3MDk3NTUxNjJ9.rV_N1OxkU6BMUvMGTNf06TIw5iDr3rlbUAHET8ZEsAxZkR5uwsH5bguFvsgcNa-SQnGY7w8TVe2U-a6fL4bS_A
+
+###
+
+POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcwOTc1NTE2MiwiZXhwIjoxNzEwMzU5OTYyLCJpYXQiOjE3MDk3NTUxNjJ9.rV_N1OxkU6BMUvMGTNf06TIw5iDr3rlbUAHET8ZEsAxZkR5uwsH5bguFvsgcNa-SQnGY7w8TVe2U-a6fL4bS_A
+
+{
+    "subjectId": 1,
+    "startTime": "2021-01-01T00:00:00",
+    "endTime": "2021-01-01T01:00:00"
+}
+
+###
+
+POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/1/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcwOTc1NTE2MiwiZXhwIjoxNzEwMzU5OTYyLCJpYXQiOjE3MDk3NTUxNjJ9.rV_N1OxkU6BMUvMGTNf06TIw5iDr3rlbUAHET8ZEsAxZkR5uwsH5bguFvsgcNa-SQnGY7w8TVe2U-a6fL4bS_A
+
+{
+  "title": "Test Note",
+  "content": "Test Note"
+}
+
+###
+
+GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/1/notes
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlVzZXIiLCJuYW1laWQiOiIwIiwicm9sZSI6IlVzZXIiLCJuYmYiOjE3MDk3NTUzNzIsImV4cCI6MTcxMDM2MDE3MiwiaWF0IjoxNzA5NzU1MzcyfQ.OfC8XZF2kCkvA66m15LQCt9se2uGJLzCI0LHLyN1DEHvfIU9Tq6ACVWE15bkEgNGl6B3lYhqURgVRHExltwWZw

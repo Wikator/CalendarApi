@@ -187,7 +187,7 @@ public class CrudRepositoryTests
     }
 
     [Fact]
-    public async Task GetByIdSubject_ShouldReturnDto_IdExists()
+    public async Task GetByIdSubject_ShouldReturnDto_WhenIdExists()
     {
         // Arrange
         var subjectRepository = new CrudRepository<Subject>(Context, Mapper);

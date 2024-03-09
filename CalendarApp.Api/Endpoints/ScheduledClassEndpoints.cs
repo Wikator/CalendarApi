@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using AutoMapper;
+using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
 using CalendarApp.Models.Dtos.Responses;
@@ -24,14 +26,18 @@ public static class ScheduledClassEndpoints
             .RequireAuthorization(new AuthorizeAttribute { Policy = "RequireAdminRole" });
     }
 
-    public static async Task<Ok<IEnumerable<ScheduledClassDto>>> GetAll(IUnitOfWork unitOfWork)
+    public static async Task<Ok<IEnumerable<ScheduledClassDto>>> GetAll(IUnitOfWork unitOfWork,
+        HttpContext httpContext, IClaimsProvider claimsProvider)
     {
-        return TypedResults.Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDto>());
+        return TypedResults.Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDto>(
+            claimsProvider.GetUserIdOrDefault(httpContext.User)));
     }
 
-    public static async Task<Results<Ok<ScheduledClassDto>, NotFound>> GetById(IUnitOfWork unitOfWork, uint id)
+    public static async Task<Results<Ok<ScheduledClassDto>, NotFound>> GetById(IUnitOfWork unitOfWork,
+        HttpContext httpContext, IClaimsProvider claimsProvider, uint id)
     {
-        var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync<ScheduledClassDto>(id);
+        var userId = claimsProvider.GetUserIdOrDefault(httpContext.User);
+        var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync<ScheduledClassDto>(id, userId);
         return scheduledClass is null ? TypedResults.NotFound() : TypedResults.Ok(scheduledClass);
     }
 
@@ -49,9 +55,11 @@ public static class ScheduledClassEndpoints
     }
 
     public static async Task<Results<Ok<ScheduledClassDto>, BadRequest<string>, NotFound>> Update(uint id,
-        IUnitOfWork unitOfWork, UpsertScheduledClassDto upsertScheduledClassDto, IMapper mapper)
+        IUnitOfWork unitOfWork, UpsertScheduledClassDto upsertScheduledClassDto, IMapper mapper,
+        HttpContext httpContext, IClaimsProvider claimsProvider)
     {
-        var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync(id);
+        var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync(id,
+            claimsProvider.GetUserId(httpContext.User));
 
         if (scheduledClass is null)
             return TypedResults.NotFound();

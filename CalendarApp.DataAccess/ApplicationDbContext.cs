@@ -8,4 +8,5 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<User> Users { get; init; }
     public DbSet<Subject> Subjects { get; init; }
     public DbSet<ScheduledClass> ScheduledClasses { get; init; }
+    public DbSet<Note> Notes { get; init; }
 }

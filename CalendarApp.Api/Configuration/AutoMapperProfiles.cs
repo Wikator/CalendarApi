@@ -16,5 +16,9 @@ public class AutoMapperProfiles : Profile
             .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.EndTime - src.StartTime));
 
         CreateMap<UpsertScheduledClassDto, ScheduledClass>();
+        
+        CreateMap<UpsertNoteDto, Note>()
+            .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
+        CreateMap<Note, NoteDto>();
     }
 }

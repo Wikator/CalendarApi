@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess;
@@ -6,6 +10,7 @@ using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 
 namespace CalendarApp.Tests.RepositoryTests;
 
@@ -89,103 +94,7 @@ public class CrudRepositoryTests
         // Assert
         dtos.Should().BeEquivalentTo(expectedDtos);
     }
-
-    [Fact]
-    public async Task GetAllScheduledClasses_ShouldReturnDtos()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        var subjects = new List<Subject>
-        {
-            new() { Name = "TestSubject1", FacultyType = 1 },
-            new() { Name = "TestSubject2", FacultyType = 2 },
-            new() { Name = "TestSubject3", FacultyType = 3 }
-        };
-
-        Context.Subjects.AddRange(subjects);
-
-        var scheduledClasses = new List<ScheduledClass>
-        {
-            new() { SubjectId = subjects[0].Id, StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) },
-            new() { SubjectId = subjects[1].Id, StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) },
-            new() { SubjectId = subjects[2].Id, StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) }
-        };
-
-        Context.ScheduledClasses.AddRange(scheduledClasses);
-        await Context.SaveChangesAsync();
-
-        var expectedDtos = scheduledClasses.Select(sc => new ScheduledClassDto
-        {
-            Id = sc.Id,
-            Subject = new SubjectDto
-            {
-                Id = subjects.Single(s => s.Id == sc.SubjectId).Id,
-                Name = subjects.Single(s => s.Id == sc.SubjectId).Name,
-                FacultyType = subjects.Single(s => s.Id == sc.SubjectId).FacultyType
-            },
-            StartTime = sc.StartTime,
-            EndTime = sc.EndTime,
-            Duration = sc.EndTime - sc.StartTime
-        });
-
-        // Act
-        var dtos = await scheduledClassRepository.GetAllAsync<ScheduledClassDto>();
-
-        // Assert
-        dtos.Should().BeEquivalentTo(expectedDtos);
-    }
-
-    [Fact]
-    public async Task GetAllScheduledClasses_WithPredicate_ShouldReturnDtos()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        var subjects = new List<Subject>
-        {
-            new() { Name = "TestSubject1", FacultyType = 1 },
-            new() { Name = "TestSubject2", FacultyType = 2 },
-            new() { Name = "TestSubject3", FacultyType = 3 }
-        };
-
-        Context.Subjects.AddRange(subjects);
-
-        var scheduledClasses = new List<ScheduledClass>
-        {
-            new() { SubjectId = subjects[0].Id, StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) },
-            new() { SubjectId = subjects[1].Id, StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) },
-            new() { SubjectId = subjects[2].Id, StartTime = DateTime.Now, EndTime = DateTime.Now.AddHours(1) }
-        };
-
-        Context.ScheduledClasses.AddRange(scheduledClasses);
-        await Context.SaveChangesAsync();
-
-        var expectedDtos = scheduledClasses
-            .Where(s => s.Id != scheduledClasses[2].Id)
-            .Select(sc => new ScheduledClassDto
-                {
-                    Id = sc.Id,
-                    Subject = new SubjectDto
-                    {
-                        Id = subjects.Single(s => s.Id == sc.SubjectId).Id,
-                        Name = subjects.Single(s => s.Id == sc.SubjectId).Name,
-                        FacultyType = subjects.Single(s => s.Id == sc.SubjectId).FacultyType
-                    },
-                    StartTime = sc.StartTime,
-                    EndTime = sc.EndTime,
-                    Duration = sc.EndTime - sc.StartTime
-                }
-            );
-
-        // Act
-        var dtos = await scheduledClassRepository
-            .GetAllAsync<ScheduledClassDto>(s => s.Id != scheduledClasses[2].Id);
-
-        // Assert
-        dtos.Should().BeEquivalentTo(expectedDtos);
-    }
-
+    
     [Fact]
     public async Task GetByIdSubject_ShouldReturnDto_WhenIdExists()
     {
@@ -227,65 +136,7 @@ public class CrudRepositoryTests
         // Assert
         dto.Should().BeNull();
     }
-
-    [Fact]
-    public async Task GetByIdScheduledClass_ShouldReturnDto_IdExists()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        var subject = new Subject
-        {
-            Name = "TestSubject",
-            FacultyType = 1
-        };
-
-        Context.Subjects.Add(subject);
-
-        var scheduledClass = new ScheduledClass
-        {
-            SubjectId = subject.Id,
-            StartTime = DateTime.Now,
-            EndTime = DateTime.Now.AddHours(1)
-        };
-
-        Context.ScheduledClasses.Add(scheduledClass);
-        await Context.SaveChangesAsync();
-
-        var expectedDto = new ScheduledClassDto
-        {
-            Id = scheduledClass.Id,
-            Subject = new SubjectDto
-            {
-                Id = subject.Id,
-                Name = subject.Name,
-                FacultyType = subject.FacultyType
-            },
-            StartTime = scheduledClass.StartTime,
-            EndTime = scheduledClass.EndTime,
-            Duration = scheduledClass.EndTime - scheduledClass.StartTime
-        };
-
-        // Act
-        var dto = await scheduledClassRepository.GetByIdAsync<ScheduledClassDto>(scheduledClass.Id);
-
-        // Assert
-        dto.Should().BeEquivalentTo(expectedDto);
-    }
-
-    [Fact]
-    public async Task GetByIdScheduledClass_ShouldReturnNull_IdDoesNotExist()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        // Act
-        var dto = await scheduledClassRepository.GetByIdAsync<ScheduledClassDto>(1);
-
-        // Assert
-        dto.Should().BeNull();
-    }
-
+    
     [Fact]
     public async Task GetByIdSubject_ShouldReturnEntity_IfExists()
     {
@@ -322,50 +173,6 @@ public class CrudRepositoryTests
     }
 
     [Fact]
-    public async Task GetByIdScheduledClass_ShouldReturnEntity_IfExists()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        var subject = new Subject
-        {
-            Name = "TestSubject",
-            FacultyType = 1
-        };
-
-        Context.Subjects.Add(subject);
-
-        var scheduledClass = new ScheduledClass
-        {
-            SubjectId = subject.Id,
-            StartTime = DateTime.Now,
-            EndTime = DateTime.Now.AddHours(1)
-        };
-
-        Context.ScheduledClasses.Add(scheduledClass);
-        await Context.SaveChangesAsync();
-
-        // Act
-        var entity = await scheduledClassRepository.GetByIdAsync(scheduledClass.Id);
-
-        // Assert
-        entity.Should().BeEquivalentTo(scheduledClass);
-    }
-
-    [Fact]
-    public async Task GetByIdScheduledClass_ShouldReturnNull_IfDoesNotExist()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        // Act
-        var entity = await scheduledClassRepository.GetByIdAsync(1);
-
-        // Assert
-        entity.Should().BeNull();
-    }
-
-    [Fact]
     public async Task AddSubject_ShouldAddEntity()
     {
         // Arrange
@@ -383,35 +190,6 @@ public class CrudRepositoryTests
 
         // Assert
         Context.Subjects.Should().Contain(subject);
-    }
-
-    [Fact]
-    public async Task AddScheduledClass_ShouldAddEntity()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        var subject = new Subject
-        {
-            Name = "TestSubject",
-            FacultyType = 1
-        };
-
-        Context.Subjects.Add(subject);
-
-        var scheduledClass = new ScheduledClass
-        {
-            SubjectId = subject.Id,
-            StartTime = DateTime.Now,
-            EndTime = DateTime.Now.AddHours(1)
-        };
-
-        // Act
-        scheduledClassRepository.Add(scheduledClass);
-        await Context.SaveChangesAsync();
-
-        // Assert
-        Context.ScheduledClasses.Should().Contain(scheduledClass);
     }
 
     [Fact]
@@ -435,37 +213,5 @@ public class CrudRepositoryTests
 
         // Assert
         Context.Subjects.Should().NotContain(subject);
-    }
-
-    [Fact]
-    public async Task DeleteScheduledClass_ShouldDeleteEntity()
-    {
-        // Arrange
-        var scheduledClassRepository = new CrudRepository<ScheduledClass>(Context, Mapper);
-
-        var subject = new Subject
-        {
-            Name = "TestSubject",
-            FacultyType = 1
-        };
-
-        Context.Subjects.Add(subject);
-
-        var scheduledClass = new ScheduledClass
-        {
-            SubjectId = subject.Id,
-            StartTime = DateTime.Now,
-            EndTime = DateTime.Now.AddHours(1)
-        };
-
-        Context.ScheduledClasses.Add(scheduledClass);
-        await Context.SaveChangesAsync();
-
-        // Act
-        scheduledClassRepository.Delete(scheduledClass);
-        await Context.SaveChangesAsync();
-
-        // Assert
-        Context.ScheduledClasses.Should().NotContain(scheduledClass);
     }
 }

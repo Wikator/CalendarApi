@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess;
@@ -6,6 +10,7 @@ using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Xunit;
 
 namespace CalendarApp.Tests.RepositoryTests;
 
@@ -237,7 +242,7 @@ public class AuthorizedCrudRepositoryTests
         };
 
         // Act
-        repository.Add(note);
+        repository.Add(note, 1);
         await Context.SaveChangesAsync();
 
         // Assert
@@ -259,7 +264,7 @@ public class AuthorizedCrudRepositoryTests
         await Context.SaveChangesAsync();
 
         // Act
-        repository.Delete(note);
+        repository.Delete(note, 1);
         await Context.SaveChangesAsync();
 
         // Assert

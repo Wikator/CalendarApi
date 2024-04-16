@@ -18,10 +18,14 @@ public static class NoteEndpoints
 
         scheduledClassApi.MapGet("/", GetAll)
             .RequireAuthorization(new AuthorizeAttribute());
-        noteApi.MapGet("{id}", GetById);
-        scheduledClassApi.MapPost("", Create);
-        noteApi.MapPut("{id}", Update);
-        noteApi.MapDelete("{id}", Delete);
+        noteApi.MapGet("{id}", GetById)
+            .RequireAuthorization(new AuthorizeAttribute());
+        scheduledClassApi.MapPost("", Create)
+            .RequireAuthorization(new AuthorizeAttribute());
+        noteApi.MapPut("{id}", Update)
+            .RequireAuthorization(new AuthorizeAttribute());
+        noteApi.MapDelete("{id}", Delete)
+            .RequireAuthorization(new AuthorizeAttribute());
     }
     
     public static async Task<Ok<IEnumerable<NoteDto>>> GetAll(IUnitOfWork unitOfWork,
@@ -47,9 +51,8 @@ public static class NoteEndpoints
     {
         var userId = claimsProvider.GetUserId(httpContext.User);
         var note = mapper.Map<Note>(upsertNoteDto);
-        note.UserId = userId;
         note.ScheduledClassId = id;
-        unitOfWork.NoteRepository.Add(note);
+        unitOfWork.NoteRepository.Add(note, userId);
 
         if (!await unitOfWork.SaveChangesAsync())
             return TypedResults.BadRequest("Failed to create note.");
@@ -80,13 +83,13 @@ public static class NoteEndpoints
     public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(uint id, IUnitOfWork unitOfWork,
         HttpContext httpContext, IClaimsProvider claimsProvider)
     {
-        var note = await unitOfWork.NoteRepository.GetByIdAsync(id,
-            claimsProvider.GetUserId(httpContext.User));
+        var userId = claimsProvider.GetUserId(httpContext.User);
+        var note = await unitOfWork.NoteRepository.GetByIdAsync(id, userId);
 
         if (note is null)
             return TypedResults.NotFound();
 
-        unitOfWork.NoteRepository.Delete(note);
+        unitOfWork.NoteRepository.Delete(note, userId);
 
         if (!await unitOfWork.SaveChangesAsync())
             return TypedResults.BadRequest("Failed to delete note.");

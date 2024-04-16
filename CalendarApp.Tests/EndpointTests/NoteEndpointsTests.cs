@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using AutoMapper;
 using CalendarApp.Api.Endpoints;
 using CalendarApp.Api.Services.Contracts;
@@ -10,6 +13,7 @@ using CalendarApp.Models.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
+using Xunit;
 
 namespace CalendarApp.Tests.EndpointTests;
 
@@ -102,7 +106,7 @@ public class NoteEndpointsTests
         var note = new Note { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now };
         
         unitOfWork.Setup(x => x.NoteRepository).Returns(noteRepository.Object);
-        noteRepository.Setup(x => x.Add(It.IsAny<Note>()));
+        noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<uint>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(true);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);
         mapper.Setup(x => x.Map<NoteDto>(note)).Returns(new NoteDto { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now });
@@ -127,7 +131,7 @@ public class NoteEndpointsTests
         var note = new Note { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now };
         
         unitOfWork.Setup(x => x.NoteRepository).Returns(noteRepository.Object);
-        noteRepository.Setup(x => x.Add(It.IsAny<Note>()));
+        noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<uint>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(false);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);
         

@@ -17,8 +17,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
 builder.Services.AddDbContext<ApplicationDbContext>(o =>
-    o.UseSqlite("Data Source=../CalendarApp.DataAccess/calendar.db",
+    o.UseSqlite("Data Source=calendar.db",
         x => x.MigrationsAssembly("CalendarApp.DataAccess")));
 
 var tokenKey = builder.Configuration["TokenKey"] ?? throw new Exception("Token key not found");
@@ -53,6 +55,12 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(cors =>
+    cors.AllowAnyHeader()
+        .AllowAnyHeader()
+        .WithOrigins("http://localhost:3000")
+    );
 
 using var scope = app.Services.CreateScope();
 var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();

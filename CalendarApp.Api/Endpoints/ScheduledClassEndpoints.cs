@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using AutoMapper;
 using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
@@ -7,6 +6,7 @@ using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CalendarApp.Api.Endpoints;
 
@@ -26,11 +26,14 @@ public static class ScheduledClassEndpoints
             .RequireAuthorization(new AuthorizeAttribute { Policy = "RequireAdminRole" });
     }
 
-    public static async Task<Ok<IEnumerable<ScheduledClassDto>>> GetAll(IUnitOfWork unitOfWork,
-        HttpContext httpContext, IClaimsProvider claimsProvider)
+    public static async Task<Ok<IEnumerable<ScheduledClassDto>>> GetAll([FromQuery] DateTime? startTime,
+        [FromQuery] DateTime? endTime, IUnitOfWork unitOfWork, HttpContext httpContext, IClaimsProvider claimsProvider)
     {
+        startTime ??= DateTime.MinValue;
+        endTime ??= DateTime.MaxValue;
+        
         return TypedResults.Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDto>(
-            claimsProvider.GetUserIdOrDefault(httpContext.User)));
+            claimsProvider.GetUserIdOrDefault(httpContext.User), s => s.StartTime >= startTime && s.StartTime <= endTime));
     }
 
     public static async Task<Results<Ok<ScheduledClassDto>, NotFound>> GetById(IUnitOfWork unitOfWork,
@@ -45,12 +48,19 @@ public static class ScheduledClassEndpoints
         UpsertScheduledClassDto upsertScheduledClassDto, IMapper mapper)
     {
         var scheduledClass = mapper.Map<ScheduledClass>(upsertScheduledClassDto);
+
+        var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(upsertScheduledClassDto.SubjectId);
+
+        if (subjectDto is null)
+            return TypedResults.BadRequest("Invalid subject id");
+        
         unitOfWork.ScheduledClassRepository.Add(scheduledClass);
 
         if (!await unitOfWork.SaveChangesAsync())
             return TypedResults.BadRequest("Failed to create scheduled class.");
-
+        
         var scheduledClassDto = mapper.Map<ScheduledClassDto>(scheduledClass);
+        scheduledClassDto.Subject = subjectDto;
         return TypedResults.Created($"api/scheduled-classes/{scheduledClassDto.Id}", scheduledClassDto);
     }
 

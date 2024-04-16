@@ -33,16 +33,20 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
 
     public virtual async Task<T?> GetByIdAsync(uint id, uint userId)
     {
-        return await Entities.Where(e => e.UserId == userId && e.Id == id).SingleOrDefaultAsync();
+        return await Entities
+            .Where(e => e.UserId == userId && e.Id == id)
+            .SingleOrDefaultAsync();
     }
 
-    public virtual void Add(T entity)
+    public virtual void Add(T entity, uint userId)
     {
+        entity.UserId = userId;
         Entities.Add(entity);
     }
 
-    public virtual void Delete(T entity)
+    public virtual void Delete(T entity, uint userId)
     {
-        Entities.Remove(entity);
+        if (userId == entity.UserId)
+            Entities.Remove(entity);
     }
 }

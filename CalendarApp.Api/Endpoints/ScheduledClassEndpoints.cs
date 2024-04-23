@@ -31,9 +31,11 @@ public static class ScheduledClassEndpoints
     {
         startTime ??= DateTime.MinValue;
         endTime ??= DateTime.MaxValue;
+
+        var userId = claimsProvider.GetUserIdOrDefault(httpContext.User);
         
-        return TypedResults.Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDto>(
-            claimsProvider.GetUserIdOrDefault(httpContext.User), s => s.StartTime >= startTime && s.StartTime <= endTime));
+        return TypedResults.Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDto>(userId,
+            s => s.StartTime >= startTime && s.StartTime <= endTime));
     }
 
     public static async Task<Results<Ok<ScheduledClassDto>, NotFound>> GetById(IUnitOfWork unitOfWork,
@@ -74,12 +76,28 @@ public static class ScheduledClassEndpoints
         if (scheduledClass is null)
             return TypedResults.NotFound();
 
+        SubjectDto? subjectDto = null;
+        if (scheduledClass.SubjectId != upsertScheduledClassDto.SubjectId)
+        {
+            subjectDto = await unitOfWork.SubjectRepository
+                .GetByIdAsync<SubjectDto>(upsertScheduledClassDto.SubjectId);
+
+            if (subjectDto is null)
+            {
+                return TypedResults.BadRequest("Invalid subject id");
+            }
+        }
+
         mapper.Map(upsertScheduledClassDto, scheduledClass);
 
         if (!await unitOfWork.SaveChangesAsync())
             return TypedResults.BadRequest("Failed to update scheduled class.");
 
         var scheduledClassDto = mapper.Map<ScheduledClassDto>(scheduledClass);
+
+        if (subjectDto is not null)
+            scheduledClassDto.Subject = subjectDto;
+        
         return TypedResults.Ok(scheduledClassDto);
     }
 

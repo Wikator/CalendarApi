@@ -103,6 +103,13 @@ public class ScheduledClassEndpointsTests
         var scheduledClass = SampleScheduledClass();
     
         unitOfWork.Setup(x => x.ScheduledClassRepository.Add(It.IsAny<ScheduledClass>()));
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>()))
+            .ReturnsAsync(new SubjectDto
+            {
+                FacultyType = 0,
+                Name = "Test",
+                Id = 2
+            });
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(true);
         mapper.Setup(x => x.Map<ScheduledClass>(upsertScheduledClassDto)).Returns(scheduledClass);
         mapper.Setup(x => x.Map<ScheduledClassDto>(scheduledClass)).Returns(scheduledClassDto);
@@ -126,6 +133,7 @@ public class ScheduledClassEndpointsTests
         var scheduledClass = SampleScheduledClass();
     
         unitOfWork.Setup(x => x.ScheduledClassRepository.Add(It.IsAny<ScheduledClass>()));
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(false);
         mapper.Setup(x => x.Map<ScheduledClass>(upsertScheduledClassDto)).Returns(scheduledClass);
     

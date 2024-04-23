@@ -37,14 +37,14 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
                 })
                 .ProjectTo<TDto>(Mapper.ConfigurationProvider)
                 .ToListAsync();
-        {
-            var user = await context.Set<User>()
-                .SingleOrDefaultAsync(u => u.Id == userId);
-            
-            query = query
-                .Where(s => s.Subject!.FacultyType == 0 || s.SubjectId == user!.Faculty1Id
-                                                        || s.SubjectId == user.Faculty2Id || s.SubjectId == user.Faculty3Id);
-        }
+        
+        
+        var user = await context.Set<User>()
+            .SingleOrDefaultAsync(u => u.Id == userId);
+        
+        query = query
+            .Where(s => s.Subject!.FacultyType == 0 || s.SubjectId == user!.Faculty1Id
+                                                    || s.SubjectId == user.Faculty2Id || s.SubjectId == user.Faculty3Id);
 
         return await query
             .Select(s => new ScheduledClass

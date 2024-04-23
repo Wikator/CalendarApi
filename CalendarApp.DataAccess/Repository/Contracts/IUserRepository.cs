@@ -5,6 +5,6 @@ namespace CalendarApp.DataAccess.Repository.Contracts;
 
 public interface IUserRepository
 {
-    UserDto Register(User user);
+    void Register(User user);
     Task<UserDto?> LoginAsync(string username, string password);
 }

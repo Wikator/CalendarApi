@@ -13,10 +13,9 @@ public class UserRepository(DbContext dbContext, IMapper mapper) : IUserReposito
     private DbSet<User> Users { get; } = dbContext.Set<User>();
     private IMapper Mapper { get; } = mapper;
 
-    public UserDto Register(User user)
+    public void Register(User user)
     {
         Users.Add(user);
-        return Mapper.Map<UserDto>(user);
     }
 
     public async Task<UserDto?> LoginAsync(string username, string password)

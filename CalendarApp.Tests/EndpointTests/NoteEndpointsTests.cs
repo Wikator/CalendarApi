@@ -106,6 +106,14 @@ public class NoteEndpointsTests
         var note = new Note { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now };
         
         unitOfWork.Setup(x => x.NoteRepository).Returns(noteRepository.Object);
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync(It.IsAny<uint>()))
+            .ReturnsAsync(new Subject
+            {
+                FacultyType = 0,
+                Id = 1,
+                Name = "Test",
+                ScheduledClasses = new List<ScheduledClass>()
+            });
         noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<uint>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(true);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);
@@ -131,12 +139,21 @@ public class NoteEndpointsTests
         var note = new Note { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now };
         
         unitOfWork.Setup(x => x.NoteRepository).Returns(noteRepository.Object);
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync(It.IsAny<uint>()))
+            .ReturnsAsync(new Subject
+            {
+                FacultyType = 0,
+                Id = 1,
+                Name = "Test",
+                ScheduledClasses = new List<ScheduledClass>()
+            });
         noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<uint>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(false);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);
         
         // Act
-        var create = await NoteEndpoints.Create(unitOfWork.Object, upsertNoteDto, mapper.Object, HttpContext, ClaimsProvider.Object, 1);
+        var create = await NoteEndpoints.Create(unitOfWork.Object,
+            upsertNoteDto, mapper.Object, HttpContext, ClaimsProvider.Object, 1);
         
         // Assert
         Assert.IsType<BadRequest<string>>(create.Result);

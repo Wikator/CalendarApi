@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess;
@@ -10,7 +6,6 @@ using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Xunit;
 
 namespace CalendarApp.Tests.RepositoryTests;
 
@@ -238,7 +233,7 @@ public class AuthorizedCrudRepositoryTests
         {
             Title = "Test1",
             Content = "Test1",
-            UserId = 1
+            UserId = 1,
         };
 
         // Act

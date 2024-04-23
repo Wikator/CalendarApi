@@ -45,10 +45,13 @@ public static class NoteEndpoints
         return note is null ? TypedResults.NotFound() : TypedResults.Ok(note);
     }
 
-    public static async Task<Results<Created<NoteDto>, BadRequest<string>>> Create(IUnitOfWork unitOfWork,
+    public static async Task<Results<Created<NoteDto>, BadRequest<string>, NotFound>> Create(IUnitOfWork unitOfWork,
         UpsertNoteDto upsertNoteDto, IMapper mapper, HttpContext httpContext, IClaimsProvider claimsProvider,
         uint id)
     {
+        if (await unitOfWork.SubjectRepository.GetByIdAsync(id) is null)
+            return TypedResults.NotFound();
+
         var userId = claimsProvider.GetUserId(httpContext.User);
         var note = mapper.Map<Note>(upsertNoteDto);
         note.ScheduledClassId = id;

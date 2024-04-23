@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
+using AutoMapper;
 using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
@@ -20,7 +21,7 @@ public static class AccountEndpoints
     }
 
     public static async Task<Results<Ok<UserWithTokenDto>, BadRequest<string>>> Register(IUnitOfWork unitOfWork,
-        RegisterDto registerDto, ITokenService tokenService)
+        RegisterDto registerDto, IMapper mapper, ITokenService tokenService)
     {
         using HMACSHA512 hmac = new();
         var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
@@ -34,11 +35,12 @@ public static class AccountEndpoints
             Role = registerDto.Username == "Admin" ? "Admin" : "User"
         };
 
-        var userDto = unitOfWork.UserRepository.Register(user);
+        unitOfWork.UserRepository.Register(user);
 
         if (!await unitOfWork.SaveChangesAsync())
             return TypedResults.BadRequest("Failed to register user.");
 
+        var userDto = mapper.Map<UserDto>(user);
         var userWithTokenDto = userDto.ToUserWithTokenDto(tokenService.CreateToken(userDto));
         return TypedResults.Ok(userWithTokenDto);
     }

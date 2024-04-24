@@ -1,3 +1,4 @@
+using AutoMapper;
 using CalendarApp.Api.Endpoints;
 using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
@@ -33,13 +34,14 @@ public class AccountEndpointsTests
             Password = "TestPassword"
         };
 
-        var userDto = SampleUserDto();
-
-        unitOfWork.Setup(x => x.UserRepository.Register(It.IsAny<User>())).Returns(userDto);
+        unitOfWork.Setup(x => x.UserRepository.Register(It.IsAny<User>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(true);
+        var mapper = new Mock<IMapper>();
+        mapper.Setup(x => x.Map<UserDto>(It.IsAny<User>())).Returns(SampleUserDto());
 
         // Act
-        var register = await AccountEndpoints.Register(unitOfWork.Object, registerDto, TokenServiceMock.Object);
+        var register = await AccountEndpoints.Register(unitOfWork.Object, registerDto, mapper.Object,
+            TokenServiceMock.Object);
 
         // Assert
         var result = Assert.IsType<Ok<UserWithTokenDto>>(register.Result);
@@ -63,13 +65,15 @@ public class AccountEndpointsTests
             Password = "TestPassword"
         };
 
-        var userDto = SampleUserDto();
+        var mapper = new Mock<IMapper>();
 
-        unitOfWork.Setup(x => x.UserRepository.Register(It.IsAny<User>())).Returns(userDto);
+        unitOfWork.Setup(x => x.UserRepository.Register(It.IsAny<User>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(false);
+        mapper.Setup(x => x.Map<UserDto>(It.IsAny<User>())).Returns(SampleUserDto());
 
         // Act
-        var register = await AccountEndpoints.Register(unitOfWork.Object, registerDto, TokenServiceMock.Object);
+        var register = await AccountEndpoints.Register(unitOfWork.Object, registerDto,
+            mapper.Object, TokenServiceMock.Object);
 
         // Assert
         var result = Assert.IsType<BadRequest<string>>(register.Result);

@@ -145,6 +145,28 @@ public class ScheduledClassEndpointsTests
     }
     
     [Fact]
+    public async Task Create_WithWrongSubjectId_ReturnsBadRequest()
+    {
+        // Arrange
+        var unitOfWork = new Mock<IUnitOfWork>();
+        var mapper = new Mock<IMapper>();
+    
+        var upsertScheduledClassDto = SampleUpsertScheduledClassDto();
+        var scheduledClass = SampleScheduledClass();
+    
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>())).
+            ReturnsAsync((SubjectDto?)null);
+        
+        mapper.Setup(x => x.Map<ScheduledClass>(upsertScheduledClassDto)).Returns(scheduledClass);
+    
+        // Act
+        var create = await ScheduledClassEndpoints.Create(unitOfWork.Object, upsertScheduledClassDto, mapper.Object);
+    
+        // Assert
+        Assert.IsType<BadRequest<string>>(create.Result);
+    }
+    
+    [Fact]
     public async Task Update_ShouldReturnOk_IfScheduledClassIsUpdated()
     {
         // Arrange
@@ -167,6 +189,31 @@ public class ScheduledClassEndpointsTests
         // Assert
         var result = Assert.IsType<Ok<ScheduledClassDto>>(update.Result);
         result.Value.Should().BeEquivalentTo(scheduledClassDto);
+    }
+    
+    [Fact]
+    public async Task Update_ShouldReturnBadRequest_IfInvalidSubjectId()
+    {
+        // Arrange
+        var unitOfWork = new Mock<IUnitOfWork>();
+        var mapper = new Mock<IMapper>();
+    
+        var upsertScheduledClassDto = SampleUpsertScheduledClassDto();
+        var scheduledClass = SampleScheduledClass();
+    
+        unitOfWork.Setup(x => x.ScheduledClassRepository.GetByIdAsync(1, 1)).ReturnsAsync(scheduledClass);
+
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>()))
+            .ReturnsAsync((SubjectDto?)null);
+        
+        mapper.Setup(x => x.Map(upsertScheduledClassDto, scheduledClass));
+    
+        // Act
+        var update = await ScheduledClassEndpoints.Update(1, unitOfWork.Object, upsertScheduledClassDto, mapper.Object,
+            HttpContext, ClaimsProvider.Object);
+    
+        // Assert
+        Assert.IsType<BadRequest<string>>(update.Result);
     }
     
     [Fact]

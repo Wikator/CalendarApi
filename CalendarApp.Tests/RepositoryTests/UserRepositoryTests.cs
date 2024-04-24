@@ -73,33 +73,6 @@ public class UserRepositoryTests
     }
 
     [Fact]
-    public async Task Register_ShouldReturnUserDto()
-    {
-        // Arrange
-        var user = SampleUser(Subject.Id);
-
-        var expectedUserDto = new UserDto
-        {
-            Id = 1,
-            Username = user.Username,
-            Faculty1 = new SubjectDto
-            {
-                Id = Subject.Id,
-                Name = Subject.Name,
-                FacultyType = Subject.FacultyType
-            },
-            Role = "User"
-        };
-
-        // Act
-        var createdUserDto = UserRepository.Register(user);
-        await Context.SaveChangesAsync();
-
-        // Assert
-        createdUserDto.Should().BeEquivalentTo(expectedUserDto);
-    }
-
-    [Fact]
     public async Task LoginAsync_ShouldReturnUserDto_IfPasswordIsCorrect()
     {
         // Arrange

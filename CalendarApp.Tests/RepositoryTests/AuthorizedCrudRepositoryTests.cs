@@ -1,29 +1,19 @@
 using AutoMapper;
 using CalendarApp.Api.Configuration;
-using CalendarApp.DataAccess;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
+using CalendarApp.Tests.RepositoryTests.Base;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.Tests.RepositoryTests;
 
-public class AuthorizedCrudRepositoryTests
+public class AuthorizedCrudRepositoryTests : RepositoryTestsBase
 {
-    private ApplicationDbContext Context { get; }
     private IMapper Mapper { get; }
 
     public AuthorizedCrudRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        Context = new ApplicationDbContext(options);
-        Context.Database.EnsureDeleted();
-        Context.Database.EnsureCreated();
-
         var mapperConfig = new MapperConfiguration(cfg =>
             cfg.AddProfile<AutoMapperProfiles>());
 

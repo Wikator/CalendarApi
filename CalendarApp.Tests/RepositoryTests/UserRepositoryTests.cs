@@ -5,28 +5,19 @@ using CalendarApp.DataAccess;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
+using CalendarApp.Tests.RepositoryTests.Base;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.Tests.RepositoryTests;
 
-public class UserRepositoryTests
+public class UserRepositoryTests : RepositoryTestsBase
 {
     private UserRepository UserRepository { get; }
-    private ApplicationDbContext Context { get; }
     private Subject Subject { get; }
-
-
+    
     public UserRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(Guid.NewGuid().ToString())
-            .Options;
-
-        Context = new ApplicationDbContext(options);
-        Context.Database.EnsureDeleted();
-        Context.Database.EnsureCreated();
-
         Subject = new Subject
         {
             Name = "TestSubject",

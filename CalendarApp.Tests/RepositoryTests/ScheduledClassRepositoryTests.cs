@@ -1,5 +1,4 @@
 using AutoMapper;
-using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
@@ -10,15 +9,11 @@ namespace CalendarApp.Tests.RepositoryTests;
 
 public class ScheduledClassRepositoryTests : RepositoryTestsBase
 {
-    private IMapper Mapper { get; }
+    private IMapper Mapper { get; } = InitializeMapper();
     private ScheduledClassRepository Repository { get; }
     
     public ScheduledClassRepositoryTests()
     {
-        var mapperConfig = new MapperConfiguration(cfg =>
-            cfg.AddProfile<AutoMapperProfiles>());
-
-        Mapper = mapperConfig.CreateMapper();
         Repository = new ScheduledClassRepository(Context, Mapper);
     }
 

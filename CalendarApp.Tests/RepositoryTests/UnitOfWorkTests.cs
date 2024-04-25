@@ -13,12 +13,7 @@ public class UnitOfWorkTests : RepositoryTestsBase
 
     public UnitOfWorkTests()
     {
-        var mapperConfig = new MapperConfiguration(cfg =>
-            cfg.AddProfile<AutoMapperProfiles>());
-
-        var mapper = mapperConfig.CreateMapper();
-
-        UnitOfWork = new UnitOfWork(Context, mapper);
+        UnitOfWork = new UnitOfWork(Context, InitializeMapper());
     }
 
     [Fact]

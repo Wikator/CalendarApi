@@ -1,7 +1,6 @@
 using System.Security.Cryptography;
 using AutoMapper;
 using CalendarApp.Api.Configuration;
-using CalendarApp.DataAccess;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;

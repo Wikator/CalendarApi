@@ -1,5 +1,4 @@
 using AutoMapper;
-using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
@@ -10,15 +9,7 @@ namespace CalendarApp.Tests.RepositoryTests;
 
 public class AuthorizedCrudRepositoryTests : RepositoryTestsBase
 {
-    private IMapper Mapper { get; }
-
-    public AuthorizedCrudRepositoryTests()
-    {
-        var mapperConfig = new MapperConfiguration(cfg =>
-            cfg.AddProfile<AutoMapperProfiles>());
-
-        Mapper = mapperConfig.CreateMapper();
-    }
+    private IMapper Mapper { get; } = InitializeMapper();
 
     [Fact]
     public async Task GetAllNotes_ShouldReturnDtos()

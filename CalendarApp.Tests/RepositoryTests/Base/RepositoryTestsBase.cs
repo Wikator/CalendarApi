@@ -1,3 +1,5 @@
+using AutoMapper;
+using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,5 +18,13 @@ public abstract class RepositoryTestsBase
         Context = new ApplicationDbContext(options);
         Context.Database.EnsureDeleted();
         Context.Database.EnsureCreated();
+    }
+    
+    protected static IMapper InitializeMapper()
+    {
+        var mapperConfig = new MapperConfiguration(cfg =>
+            cfg.AddProfile<AutoMapperProfiles>());
+
+        return mapperConfig.CreateMapper();
     }
 }

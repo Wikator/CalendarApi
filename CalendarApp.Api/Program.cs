@@ -1,6 +1,5 @@
 using System.Text;
 using CalendarApp.Api.Configuration;
-using CalendarApp.Api.Endpoints;
 using CalendarApp.Api.Services;
 using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess;
@@ -11,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -69,10 +69,6 @@ if ((await db.Database.GetPendingMigrationsAsync()).Any()) await db.Database.Mig
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapAccountEndpoints();
-app.MapSubjectEndpoints();
-app.MapScheduledClassEndpoints();
-app.MapNoteEndpoints();
-app.MapTestEndpoints();
+app.MapControllers();
 
 app.Run();

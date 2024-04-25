@@ -6,22 +6,19 @@ using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
 using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Entities;
-using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
-namespace CalendarApp.Api.Endpoints;
+namespace CalendarApp.Api.Controllers;
 
-public static class AccountEndpoints
+
+[ApiController]
+[Route("api/[controller]")]
+public class AccountController(
+    IUnitOfWork unitOfWork,
+    ITokenService tokenService) : ControllerBase
 {
-    public static void MapAccountEndpoints(this WebApplication app)
-    {
-        var accountApi = app.MapGroup("api/account");
-
-        accountApi.MapPost("register", Register);
-        accountApi.MapPost("login", Login);
-    }
-
-    public static async Task<Results<Ok<UserWithTokenDto>, BadRequest<string>>> Register(IUnitOfWork unitOfWork,
-        RegisterDto registerDto, IMapper mapper, ITokenService tokenService)
+    [HttpPost]
+    public async Task<IActionResult> Register(RegisterDto registerDto, IMapper mapper)
     {
         using HMACSHA512 hmac = new();
         var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password));
@@ -38,22 +35,22 @@ public static class AccountEndpoints
         unitOfWork.UserRepository.Register(user);
 
         if (!await unitOfWork.SaveChangesAsync())
-            return TypedResults.BadRequest("Failed to register user.");
+            return UnprocessableEntity("Failed to register user.");
 
         var userDto = mapper.Map<UserDto>(user);
         var userWithTokenDto = userDto.ToUserWithTokenDto(tokenService.CreateToken(userDto));
-        return TypedResults.Ok(userWithTokenDto);
+        return Ok(userWithTokenDto);
     }
-
-    public static async Task<Results<Ok<UserWithTokenDto>, BadRequest<string>>> Login(IUnitOfWork unitOfWork,
-        LoginDto loginDto, ITokenService tokenService)
+    
+    [HttpPost]
+    public async Task<IActionResult> Login(LoginDto loginDto)
     {
         var userDto = await unitOfWork.UserRepository.LoginAsync(loginDto.Username, loginDto.Password);
 
         if (userDto is null)
-            return TypedResults.BadRequest("Invalid username or password.");
+            return BadRequest("Invalid username or password.");
 
         var userWithTokenDto = userDto.ToUserWithTokenDto(tokenService.CreateToken(userDto));
-        return TypedResults.Ok(userWithTokenDto);
+        return Ok(userWithTokenDto);
     }
 }

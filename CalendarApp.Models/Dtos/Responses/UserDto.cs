@@ -2,7 +2,7 @@ namespace CalendarApp.Models.Dtos.Responses;
 
 public class UserDto
 {
-    public uint Id { get; init; }
+    public int Id { get; init; }
     public required string Username { get; init; }
     public required string Role { get; init; }
     public SubjectDto? Faculty1 { get; init; }

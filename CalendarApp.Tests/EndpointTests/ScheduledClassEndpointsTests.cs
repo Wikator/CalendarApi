@@ -103,7 +103,7 @@ public class ScheduledClassEndpointsTests
         var scheduledClass = SampleScheduledClass();
     
         unitOfWork.Setup(x => x.ScheduledClassRepository.Add(It.IsAny<ScheduledClass>()));
-        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>()))
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<int>()))
             .ReturnsAsync(new SubjectDto
             {
                 FacultyType = 0,
@@ -133,7 +133,7 @@ public class ScheduledClassEndpointsTests
         var scheduledClass = SampleScheduledClass();
     
         unitOfWork.Setup(x => x.ScheduledClassRepository.Add(It.IsAny<ScheduledClass>()));
-        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>()));
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<int>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(false);
         mapper.Setup(x => x.Map<ScheduledClass>(upsertScheduledClassDto)).Returns(scheduledClass);
     
@@ -154,7 +154,7 @@ public class ScheduledClassEndpointsTests
         var upsertScheduledClassDto = SampleUpsertScheduledClassDto();
         var scheduledClass = SampleScheduledClass();
     
-        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>())).
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<int>())).
             ReturnsAsync((SubjectDto?)null);
         
         mapper.Setup(x => x.Map<ScheduledClass>(upsertScheduledClassDto)).Returns(scheduledClass);
@@ -203,7 +203,7 @@ public class ScheduledClassEndpointsTests
     
         unitOfWork.Setup(x => x.ScheduledClassRepository.GetByIdAsync(1, 1)).ReturnsAsync(scheduledClass);
 
-        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<uint>()))
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync<SubjectDto>(It.IsAny<int>()))
             .ReturnsAsync((SubjectDto?)null);
         
         mapper.Setup(x => x.Map(upsertScheduledClassDto, scheduledClass));

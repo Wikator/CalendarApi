@@ -27,7 +27,7 @@ public static class SubjectEndpoints
     public static async Task<Ok<IEnumerable<SubjectDto>>> GetAll(IUnitOfWork unitOfWork) =>
         TypedResults.Ok(await unitOfWork.SubjectRepository.GetAllAsync<SubjectDto>());
 
-    public static async Task<Results<Ok<SubjectDto>, NotFound>> GetById(IUnitOfWork unitOfWork, uint id)
+    public static async Task<Results<Ok<SubjectDto>, NotFound>> GetById(IUnitOfWork unitOfWork, int id)
     {
         var subject = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(id);
         return subject is null ? TypedResults.NotFound() : TypedResults.Ok(subject);
@@ -46,7 +46,7 @@ public static class SubjectEndpoints
         return TypedResults.Created($"api/subjects/{subjectDto.Id}", subjectDto);
     }
 
-    public static async Task<Results<Ok<SubjectDto>, BadRequest<string>, NotFound>> Update(uint id,
+    public static async Task<Results<Ok<SubjectDto>, BadRequest<string>, NotFound>> Update(int id,
         IUnitOfWork unitOfWork, UpsertSubjectDto upsertSubjectDto, IMapper mapper)
     {
         var subject = await unitOfWork.SubjectRepository.GetByIdAsync(id);
@@ -63,7 +63,7 @@ public static class SubjectEndpoints
         return TypedResults.Ok(subjectDto);
     }
 
-    public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(uint id, IUnitOfWork unitOfWork)
+    public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(int id, IUnitOfWork unitOfWork)
     {
         var subject = await unitOfWork.SubjectRepository.GetByIdAsync(id);
 

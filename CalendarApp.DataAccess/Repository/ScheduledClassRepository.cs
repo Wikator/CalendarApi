@@ -12,7 +12,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
     private IMapper Mapper { get; } = mapper;
     private DbSet<ScheduledClass> Entities { get; } = context.Set<ScheduledClass>();
 
-    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(uint? userId,
+    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int? userId,
         Expression<Func<ScheduledClass, bool>>? predicate = null)
     {
         var query = Entities
@@ -61,7 +61,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
             .ToListAsync();
     }
 
-    public async Task<TDto?> GetByIdAsync<TDto>(uint id, uint? userId)
+    public async Task<TDto?> GetByIdAsync<TDto>(int id, int? userId)
     {
         return await Entities
             .Where(e => e.Id == id)
@@ -80,7 +80,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
             .SingleOrDefaultAsync();
     }
 
-    public async Task<ScheduledClass?> GetByIdAsync(uint id, uint? userId)
+    public async Task<ScheduledClass?> GetByIdAsync(int id, int? userId)
     {
         return await Entities
             .Where(e => e.Id == id)
@@ -98,7 +98,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
             .SingleOrDefaultAsync();
     }
     
-    public async Task<ScheduledClass?> GetByIdAsync(uint id)
+    public async Task<ScheduledClass?> GetByIdAsync(int id)
     {
         return await Entities
             .SingleOrDefaultAsync(e => e.Id == id);

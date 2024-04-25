@@ -39,7 +39,7 @@ public static class ScheduledClassEndpoints
     }
 
     public static async Task<Results<Ok<ScheduledClassDto>, NotFound>> GetById(IUnitOfWork unitOfWork,
-        HttpContext httpContext, IClaimsProvider claimsProvider, uint id)
+        HttpContext httpContext, IClaimsProvider claimsProvider, int id)
     {
         var userId = claimsProvider.GetUserIdOrDefault(httpContext.User);
         var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync<ScheduledClassDto>(id, userId);
@@ -66,7 +66,7 @@ public static class ScheduledClassEndpoints
         return TypedResults.Created($"api/scheduled-classes/{scheduledClassDto.Id}", scheduledClassDto);
     }
 
-    public static async Task<Results<Ok<ScheduledClassDto>, BadRequest<string>, NotFound>> Update(uint id,
+    public static async Task<Results<Ok<ScheduledClassDto>, BadRequest<string>, NotFound>> Update(int id,
         IUnitOfWork unitOfWork, UpsertScheduledClassDto upsertScheduledClassDto, IMapper mapper,
         HttpContext httpContext, IClaimsProvider claimsProvider)
     {
@@ -101,7 +101,7 @@ public static class ScheduledClassEndpoints
         return TypedResults.Ok(scheduledClassDto);
     }
 
-    public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(uint id, IUnitOfWork unitOfWork)
+    public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(int id, IUnitOfWork unitOfWork)
     {
         var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync(id);
 

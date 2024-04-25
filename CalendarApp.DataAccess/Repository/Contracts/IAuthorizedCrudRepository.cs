@@ -5,9 +5,9 @@ namespace CalendarApp.DataAccess.Repository.Contracts;
 
 public interface IAuthorizedCrudRepository<T> where T : class, IAuthorizedEntity
 {
-    public Task<IEnumerable<TDto>> GetAllAsync<TDto>(uint userId, Expression<Func<T, bool>>? predicate = null);
-    public Task<TDto?> GetByIdAsync<TDto>(uint userId, uint id);
-    public Task<T?> GetByIdAsync(uint userId, uint id);
-    public void Add(T entity, uint userId);
-    public void Delete(T entity, uint userId);
+    public Task<IEnumerable<TDto>> GetAllAsync<TDto>(int userId, Expression<Func<T, bool>>? predicate = null);
+    public Task<TDto?> GetByIdAsync<TDto>(int userId, int id);
+    public Task<T?> GetByIdAsync(int userId, int id);
+    public void Add(T entity, int userId);
+    public void Delete(T entity, int userId);
 }

@@ -4,6 +4,6 @@ namespace CalendarApp.Api.Services.Contracts;
 
 public interface IClaimsProvider
 {
-    uint? GetUserIdOrDefault(ClaimsPrincipal claimsPrincipal);
-    uint GetUserId(ClaimsPrincipal claimsPrincipal);
+    int? GetUserIdOrDefault(ClaimsPrincipal claimsPrincipal);
+    int GetUserId(ClaimsPrincipal claimsPrincipal);
 }

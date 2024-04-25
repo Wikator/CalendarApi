@@ -22,7 +22,7 @@ public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudReposit
         return await query.ProjectTo<TDto>(Mapper.ConfigurationProvider).ToListAsync();
     }
 
-    public virtual async Task<TDto?> GetByIdAsync<TDto>(uint id)
+    public virtual async Task<TDto?> GetByIdAsync<TDto>(int id)
     {
         return await Entities
             .Where(e => e.Id == id)
@@ -30,7 +30,7 @@ public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudReposit
             .SingleOrDefaultAsync();
     }
 
-    public virtual async Task<T?> GetByIdAsync(uint id)
+    public virtual async Task<T?> GetByIdAsync(int id)
     {
         return await Entities.FindAsync(id);
     }

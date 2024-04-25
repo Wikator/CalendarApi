@@ -40,7 +40,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
     [InlineData(1, 1)]
     [InlineData(2, 1)]
     [InlineData(3, 0)]
-    public async Task GetAllScheduledClasses_ShouldReturnSubjectsWithUserNotes_WhenLoggedIn(uint userId,
+    public async Task GetAllScheduledClasses_ShouldReturnSubjectsWithUserNotes_WhenLoggedIn(int userId,
         int expectedCount)
     {
         // Arranged

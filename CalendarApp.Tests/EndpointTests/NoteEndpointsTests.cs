@@ -106,7 +106,7 @@ public class NoteEndpointsTests
         var note = new Note { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now };
         
         unitOfWork.Setup(x => x.NoteRepository).Returns(noteRepository.Object);
-        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync(It.IsAny<uint>()))
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync(It.IsAny<int>()))
             .ReturnsAsync(new Subject
             {
                 FacultyType = 0,
@@ -114,7 +114,7 @@ public class NoteEndpointsTests
                 Name = "Test",
                 ScheduledClasses = new List<ScheduledClass>()
             });
-        noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<uint>()));
+        noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<int>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(true);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);
         mapper.Setup(x => x.Map<NoteDto>(note)).Returns(new NoteDto { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now });
@@ -139,7 +139,7 @@ public class NoteEndpointsTests
         var note = new Note { Id = 1, Title = "Title", Content = "Content", LastModified = DateTime.Now };
         
         unitOfWork.Setup(x => x.NoteRepository).Returns(noteRepository.Object);
-        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync(It.IsAny<uint>()))
+        unitOfWork.Setup(x => x.SubjectRepository.GetByIdAsync(It.IsAny<int>()))
             .ReturnsAsync(new Subject
             {
                 FacultyType = 0,
@@ -147,7 +147,7 @@ public class NoteEndpointsTests
                 Name = "Test",
                 ScheduledClasses = new List<ScheduledClass>()
             });
-        noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<uint>()));
+        noteRepository.Setup(x => x.Add(It.IsAny<Note>(), It.IsAny<int>()));
         unitOfWork.Setup(x => x.SaveChangesAsync()).ReturnsAsync(false);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);
         

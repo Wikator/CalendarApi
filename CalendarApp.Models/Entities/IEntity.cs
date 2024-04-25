@@ -2,5 +2,5 @@ namespace CalendarApp.Models.Entities;
 
 public interface IEntity
 {
-    public uint Id { get; set; }
+    public int Id { get; set; }
 }

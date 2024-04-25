@@ -13,7 +13,7 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
     protected IMapper Mapper { get; } = mapper;
     protected DbSet<T> Entities { get; } = context.Set<T>();
 
-    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(uint id, Expression<Func<T, bool>>? predicate = null)
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int id, Expression<Func<T, bool>>? predicate = null)
     {
         var query = Entities.Where(e => e.UserId == id);
 
@@ -23,7 +23,7 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
         return await query.ProjectTo<TDto>(Mapper.ConfigurationProvider).ToListAsync();
     }
 
-    public virtual async Task<TDto?> GetByIdAsync<TDto>(uint id, uint userId)
+    public virtual async Task<TDto?> GetByIdAsync<TDto>(int id, int userId)
     {
         return await Entities
             .Where(e => e.Id == id && e.UserId == userId)
@@ -31,20 +31,20 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
             .SingleOrDefaultAsync();
     }
 
-    public virtual async Task<T?> GetByIdAsync(uint id, uint userId)
+    public virtual async Task<T?> GetByIdAsync(int id, int userId)
     {
         return await Entities
             .Where(e => e.UserId == userId && e.Id == id)
             .SingleOrDefaultAsync();
     }
 
-    public virtual void Add(T entity, uint userId)
+    public virtual void Add(T entity, int userId)
     {
         entity.UserId = userId;
         Entities.Add(entity);
     }
 
-    public virtual void Delete(T entity, uint userId)
+    public virtual void Delete(T entity, int userId)
     {
         if (userId == entity.UserId)
             Entities.Remove(entity);

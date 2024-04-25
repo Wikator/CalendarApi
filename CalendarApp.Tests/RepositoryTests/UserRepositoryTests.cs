@@ -141,7 +141,7 @@ public class UserRepositoryTests : RepositoryTestsBase
         userDto.Should().BeNull();
     }
 
-    private static User SampleUser(uint? subjectId)
+    private static User SampleUser(int? subjectId)
     {
         return new User
         {

@@ -5,7 +5,7 @@ namespace CalendarApp.Api.Services;
 
 public class ClaimsProvider : IClaimsProvider
 {
-    public uint? GetUserIdOrDefault(ClaimsPrincipal claimsPrincipal)
+    public int? GetUserIdOrDefault(ClaimsPrincipal claimsPrincipal)
     {
         var claimValue = claimsPrincipal.Claims
             .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -13,11 +13,11 @@ public class ClaimsProvider : IClaimsProvider
         return claimValue switch
         {
             null => null,
-            _ => uint.Parse(claimValue)
+            _ => int.Parse(claimValue)
         };
     }
 
-    public uint GetUserId(ClaimsPrincipal claimsPrincipal) =>
-        uint.Parse(claimsPrincipal.Claims
+    public int GetUserId(ClaimsPrincipal claimsPrincipal) =>
+        int.Parse(claimsPrincipal.Claims
             .FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value!);
 }

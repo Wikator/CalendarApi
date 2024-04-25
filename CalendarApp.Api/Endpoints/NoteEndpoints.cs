@@ -29,7 +29,7 @@ public static class NoteEndpoints
     }
     
     public static async Task<Ok<IEnumerable<NoteDto>>> GetAll(IUnitOfWork unitOfWork,
-        HttpContext httpContext, IClaimsProvider claimsProvider, uint id)
+        HttpContext httpContext, IClaimsProvider claimsProvider, int id)
     {
         var userId = claimsProvider.GetUserId(httpContext.User);
         return TypedResults.Ok(await unitOfWork.NoteRepository.GetAllAsync<NoteDto>(userId,
@@ -37,7 +37,7 @@ public static class NoteEndpoints
     }
 
     public static async Task<Results<Ok<NoteDto>, NotFound>> GetById(IUnitOfWork unitOfWork,
-        HttpContext httpContext, IClaimsProvider claimsProvider, uint id)
+        HttpContext httpContext, IClaimsProvider claimsProvider, int id)
     {
         var userId = claimsProvider.GetUserId(httpContext.User);
         var note = await unitOfWork.NoteRepository.GetByIdAsync<NoteDto>(userId, id);
@@ -47,7 +47,7 @@ public static class NoteEndpoints
 
     public static async Task<Results<Created<NoteDto>, BadRequest<string>, NotFound>> Create(IUnitOfWork unitOfWork,
         UpsertNoteDto upsertNoteDto, IMapper mapper, HttpContext httpContext, IClaimsProvider claimsProvider,
-        uint id)
+        int id)
     {
         if (await unitOfWork.SubjectRepository.GetByIdAsync(id) is null)
             return TypedResults.NotFound();
@@ -64,7 +64,7 @@ public static class NoteEndpoints
         return TypedResults.Created($"api/notes/{scheduledClassDto.Id}", scheduledClassDto);
     }
 
-    public static async Task<Results<Ok<NoteDto>, BadRequest<string>, NotFound>> Update(uint id,
+    public static async Task<Results<Ok<NoteDto>, BadRequest<string>, NotFound>> Update(int id,
         IUnitOfWork unitOfWork, UpsertNoteDto upsertNoteDto, IMapper mapper,
         HttpContext httpContext, IClaimsProvider claimsProvider)
     {
@@ -83,7 +83,7 @@ public static class NoteEndpoints
         return TypedResults.Ok(noteDto);
     }
 
-    public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(uint id, IUnitOfWork unitOfWork,
+    public static async Task<Results<NoContent, BadRequest<string>, NotFound>> Delete(int id, IUnitOfWork unitOfWork,
         HttpContext httpContext, IClaimsProvider claimsProvider)
     {
         var userId = claimsProvider.GetUserId(httpContext.User);

@@ -9,4 +9,5 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Subject> Subjects { get; init; }
     public DbSet<ScheduledClass> ScheduledClasses { get; init; }
     public DbSet<Note> Notes { get; init; }
+    public DbSet<Test> Tests { get; init; }
 }

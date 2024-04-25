@@ -11,6 +11,7 @@ public class UnitOfWork(ApplicationDbContext dbContext, IMapper mapper) : IUnitO
 
     public IUserRepository UserRepository { get; } = new UserRepository(dbContext, mapper);
     public ICrudRepository<Subject> SubjectRepository { get; } = new CrudRepository<Subject>(dbContext, mapper);
+    public ICrudRepository<Test> TestRepository { get; } = new CrudRepository<Test>(dbContext, mapper);
 
     public IScheduledClassRepository ScheduledClassRepository { get; } =
         new ScheduledClassRepository(dbContext, mapper);

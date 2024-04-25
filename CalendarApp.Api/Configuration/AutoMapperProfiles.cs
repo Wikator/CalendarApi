@@ -20,5 +20,8 @@ public class AutoMapperProfiles : Profile
         CreateMap<UpsertNoteDto, Note>()
             .ForMember(dest => dest.LastModified, opt => opt.MapFrom(src => DateTime.Now));
         CreateMap<Note, NoteDto>();
+
+        CreateMap<Test, TestDto>();
+        CreateMap<UpsertTestDto, Test>();
     }
 }

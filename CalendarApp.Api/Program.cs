@@ -73,5 +73,6 @@ app.MapAccountEndpoints();
 app.MapSubjectEndpoints();
 app.MapScheduledClassEndpoints();
 app.MapNoteEndpoints();
+app.MapTestEndpoints();
 
 app.Run();

@@ -18,13 +18,13 @@ public static class NoteEndpoints
 
         scheduledClassApi.MapGet("/", GetAll)
             .RequireAuthorization(new AuthorizeAttribute());
-        noteApi.MapGet("{id}", GetById)
+        noteApi.MapGet("{id:int}", GetById)
             .RequireAuthorization(new AuthorizeAttribute());
         scheduledClassApi.MapPost("", Create)
             .RequireAuthorization(new AuthorizeAttribute());
-        noteApi.MapPut("{id}", Update)
+        noteApi.MapPut("{id:int}", Update)
             .RequireAuthorization(new AuthorizeAttribute());
-        noteApi.MapDelete("{id}", Delete)
+        noteApi.MapDelete("{id:int}", Delete)
             .RequireAuthorization(new AuthorizeAttribute());
     }
     

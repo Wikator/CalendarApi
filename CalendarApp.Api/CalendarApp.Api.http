@@ -19,7 +19,7 @@ POST {{CalendarApp.Api_HostAddress}}/api/account/login
 Content-Type: application/json
 
 {
-  "username": "Admin",
+  "username": "Admn",
   "password": "Pa$$w0rd"
 }
 
@@ -49,7 +49,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzI4MDY0NiwiZXhwIjoxNzEzODg1NDQ2LCJpYXQiOjE3MTMyODA2NDZ9.BVPTQccZqerSiKfcyBOH72luv2pB2gTGOIkQ3NGq7cqZyKkwZun_F0w4W4-rrDhva3cxxLl5xtRudLJ0RDeYHA
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDA0MjkzNCwiZXhwIjoxNzE0NjQ3NzM0LCJpYXQiOjE3MTQwNDI5MzR9.g_Oz9LpAcMjtIS05v_OlGMmXU7YXVKH0T1HuHgnuu-K7MaRGlfpjigT0UltSPAwoIPb4VqLIv9NLmpItQH5NSw
 
 {
     "subjectId": 1,
@@ -73,7 +73,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 DELETE {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/7
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzI4MDY0NiwiZXhwIjoxNzEzODg1NDQ2LCJpYXQiOjE3MTMyODA2NDZ9.BVPTQccZqerSiKfcyBOH72luv2pB2gTGOIkQ3NGq7cqZyKkwZun_F0w4W4-rrDhva3cxxLl5xtRudLJ0RDeYHA
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDA0MjkzNCwiZXhwIjoxNzE0NjQ3NzM0LCJpYXQiOjE3MTQwNDI5MzR9.g_Oz9LpAcMjtIS05v_OlGMmXU7YXVKH0T1HuHgnuu-K7MaRGlfpjigT0UltSPAwoIPb4VqLIv9NLmpItQH5NSw
 
 ###
 
@@ -111,6 +111,5 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDA0MjkzNCwiZXhwIjoxNzE0NjQ3NzM0LCJpYXQiOjE3MTQwNDI5MzR9.g_Oz9LpAcMjtIS05v_OlGMmXU7YXVKH0T1HuHgnuu-K7MaRGlfpjigT0UltSPAwoIPb4VqLIv9NLmpItQH5NSw
 
 {
-  "title": "Test1",
-  "startTime": "2023-03-03"
+  "title": "Test1"
 }

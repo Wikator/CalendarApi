@@ -44,9 +44,14 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
         Entities.Add(entity);
     }
 
-    public virtual void Delete(T entity, int userId)
+    public virtual async Task<bool> DeleteByIdAsync(int id, int userId)
     {
-        if (userId == entity.UserId)
-            Entities.Remove(entity);
+        var entity = await GetByIdAsync(id, userId);
+
+        if (entity is null || entity.UserId != userId)
+            return false;
+
+        Entities.Remove(entity);
+        return true;
     }
 }

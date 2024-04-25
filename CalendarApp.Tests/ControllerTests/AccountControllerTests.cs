@@ -73,8 +73,7 @@ public class AccountControllerTests
         var register = await AccountController.Register(registerDto, mapper.Object);
 
         // Assert
-        var result = Assert.IsType<UnprocessableEntityObjectResult>(register);
-        result.Value.Should().Be("Failed to register user.");
+        Assert.IsType<UnprocessableEntityObjectResult>(register);
     }
 
     [Fact]
@@ -122,8 +121,7 @@ public class AccountControllerTests
         var login = await AccountController.Login(loginDto);
 
         // Assert
-        var result = Assert.IsType<BadRequestObjectResult>(login);
-        result.Value.Should().Be("Invalid username or password.");
+        Assert.IsType<BadRequestObjectResult>(login);
     }
 
     private static UserDto SampleUserDto()

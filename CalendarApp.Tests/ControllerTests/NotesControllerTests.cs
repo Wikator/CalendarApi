@@ -96,18 +96,8 @@ public class NotesControllerTests
         var upsertNoteDto = SampleUpsertNoteDto();
         var note = SampleNote();
         
-        UnitOfWorkMock.Setup(x => x.ScheduledClassRepository.GetByIdAsync(scheduledClassId))
-            .ReturnsAsync(new ScheduledClass
-            {
-                Subject = new Subject
-                {
-                    FacultyType = 0,
-                    Id = 1,
-                    Name = "Test",
-                    ScheduledClasses = new List<ScheduledClass>()
-                },
-                Id = scheduledClassId
-            });
+        UnitOfWorkMock.Setup(x => x.ScheduledClassRepository.ExistsAsync(x => x.Id == scheduledClassId))
+            .ReturnsAsync(true);
         UnitOfWorkMock.Setup(x => x.NoteRepository.Add(It.IsAny<Note>(), UserId));
         UnitOfWorkMock.Setup(x => x.SaveChangesAsync()).ReturnsAsync(true);
         mapper.Setup(x => x.Map<Note>(upsertNoteDto)).Returns(note);

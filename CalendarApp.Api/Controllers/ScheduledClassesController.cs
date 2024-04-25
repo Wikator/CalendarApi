@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CalendarApp.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Scheduled-Classes")]
 public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
 {
     [HttpGet]
@@ -41,10 +41,11 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     {
        var scheduledClass = mapper.Map<ScheduledClass>(upsertScheduledClassDto);
 
-       var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(upsertScheduledClassDto.SubjectId);
+       var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(
+           upsertScheduledClassDto.SubjectId!.Value);
 
        if (subjectDto is null)
-           return UnprocessableEntity("Invalid subject id");
+           return UnprocessableEntity(new ErrorMessage("Invalid subject id"));
         
        unitOfWork.ScheduledClassRepository.Add(scheduledClass);
 
@@ -68,10 +69,10 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
             return NotFound();
 
         SubjectDto? subjectDto = null;
-        if (scheduledClass.SubjectId != upsertScheduledClassDto.SubjectId)
+        if (scheduledClass.SubjectId != upsertScheduledClassDto.SubjectId!.Value)
         {
             subjectDto = await unitOfWork.SubjectRepository
-                .GetByIdAsync<SubjectDto>(upsertScheduledClassDto.SubjectId);
+                .GetByIdAsync<SubjectDto>(upsertScheduledClassDto.SubjectId!.Value);
 
             if (subjectDto is null)
             {

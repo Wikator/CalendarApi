@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CalendarApp.Models.Dtos.Requests;
 
 public class UpsertNoteDto
 {
-    public required string Title { get; init; }
-    public required string Content { get; init; }
+    [Required] public string Title { get; init; } = "";
+    [Required] public string Content { get; init; } = "";
 }

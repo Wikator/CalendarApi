@@ -1,7 +1,9 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CalendarApp.Models.Dtos.Requests;
 
 public class LoginDto
 {
-    public required string Username { get; set; }
-    public required string Password { get; set; }
+    [Required] public string Username { get; init; } = "";
+    [Required] public string Password { get; init; } = "";
 }

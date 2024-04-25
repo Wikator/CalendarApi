@@ -17,7 +17,7 @@ public class AccountController(
     IUnitOfWork unitOfWork,
     ITokenService tokenService) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterDto registerDto, IMapper mapper)
     {
         using HMACSHA512 hmac = new();
@@ -35,20 +35,20 @@ public class AccountController(
         unitOfWork.UserRepository.Register(user);
 
         if (!await unitOfWork.SaveChangesAsync())
-            return UnprocessableEntity("Failed to register user.");
+            return UnprocessableEntity(new ErrorMessage("Failed to register user."));
 
         var userDto = mapper.Map<UserDto>(user);
         var userWithTokenDto = userDto.ToUserWithTokenDto(tokenService.CreateToken(userDto));
         return Ok(userWithTokenDto);
     }
     
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<IActionResult> Login(LoginDto loginDto)
     {
         var userDto = await unitOfWork.UserRepository.LoginAsync(loginDto.Username, loginDto.Password);
 
         if (userDto is null)
-            return BadRequest("Invalid username or password.");
+            return BadRequest(new ErrorMessage("Invalid username or password."));
 
         var userWithTokenDto = userDto.ToUserWithTokenDto(tokenService.CreateToken(userDto));
         return Ok(userWithTokenDto);

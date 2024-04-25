@@ -97,17 +97,20 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
             })
             .SingleOrDefaultAsync();
     }
-    
+
     public async Task<ScheduledClass?> GetByIdAsync(int id)
     {
-        return await Entities
-            .SingleOrDefaultAsync(e => e.Id == id);
+        return await Entities.SingleOrDefaultAsync(e => e.Id == id);
+    }
+
+    public async Task<bool> ExistsAsync(Expression<Func<ScheduledClass, bool>> predicate)
+    {
+        return await Entities.AnyAsync(predicate);
     }
 
     public void Add(ScheduledClass entity)
     {
-        Entities
-            .Add(entity);
+        Entities.Add(entity);
     }
 
     public void Delete(ScheduledClass entity)

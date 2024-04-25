@@ -31,7 +31,7 @@ public class SubjectsController(IUnitOfWork unitOfWork) : ControllerBase
         unitOfWork.SubjectRepository.Add(subject);
 
         if (!await unitOfWork.SaveChangesAsync())
-            return BadRequest("Failed to create subject.");
+            return BadRequest(new ErrorMessage("Failed to create subject."));
 
         var subjectDto = mapper.Map<SubjectDto>(subject);
         return CreatedAtAction(nameof(GetById), new { id = subjectDto.Id}, subjectDto);
@@ -49,7 +49,7 @@ public class SubjectsController(IUnitOfWork unitOfWork) : ControllerBase
         mapper.Map(upsertSubjectDto, subject);
 
         if (!await unitOfWork.SaveChangesAsync())
-            return UnprocessableEntity("Failed to update subject.");
+            return UnprocessableEntity(new ErrorMessage("Failed to update subject."));
 
         var subjectDto = mapper.Map<SubjectDto>(subject);
         return Ok(subjectDto);

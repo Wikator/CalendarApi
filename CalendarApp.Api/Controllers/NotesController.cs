@@ -36,7 +36,7 @@ public class NotesController(
     [HttpPost("api/scheduled-classes/{id:int}/notes")]
     public async Task<IActionResult> Create(int id, UpsertNoteDto upsertNoteDto, IMapper mapper)
     {
-        if (await unitOfWork.ScheduledClassRepository.GetByIdAsync(id) is null)
+        if (!await unitOfWork.ScheduledClassRepository.ExistsAsync(s => s.Id == id))
             return NotFound();
 
         var userId = claimsProvider.GetUserId(User);
@@ -45,7 +45,7 @@ public class NotesController(
         unitOfWork.NoteRepository.Add(note, userId);
 
         if (!await unitOfWork.SaveChangesAsync())
-            return UnprocessableEntity("Failed to create note.");
+            return UnprocessableEntity(new ErrorMessage("Failed to create note."));
 
         var noteDto = mapper.Map<NoteDto>(note);
         return CreatedAtAction(nameof(GetById), new { id = noteDto.Id }, noteDto);
@@ -63,7 +63,7 @@ public class NotesController(
         mapper.Map(upsertNoteDto, note);
 
         if (!await unitOfWork.SaveChangesAsync())
-            return UnprocessableEntity("Failed to update note.");
+            return UnprocessableEntity(new ErrorMessage("Failed to update note."));
 
         var noteDto = mapper.Map<NoteDto>(note);
         return Ok(noteDto);
@@ -72,16 +72,11 @@ public class NotesController(
     [HttpDelete("/notes/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var userId = claimsProvider.GetUserId(User);
-        var note = await unitOfWork.NoteRepository.GetByIdAsync(id, userId);
-
-        if (note is null)
+        if (!await unitOfWork.NoteRepository.DeleteByIdAsync(id, claimsProvider.GetUserId(User)))
             return NotFound();
-
-        unitOfWork.NoteRepository.Delete(note, userId);
-
+            
         if (!await unitOfWork.SaveChangesAsync())
-            return UnprocessableEntity("Failed to delete note.");
+            return UnprocessableEntity(new ErrorMessage("Failed to delete note."));
 
         return NoContent();
     }

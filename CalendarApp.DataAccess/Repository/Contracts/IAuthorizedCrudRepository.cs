@@ -9,5 +9,5 @@ public interface IAuthorizedCrudRepository<T> where T : class, IAuthorizedEntity
     public Task<TDto?> GetByIdAsync<TDto>(int userId, int id);
     public Task<T?> GetByIdAsync(int userId, int id);
     public void Add(T entity, int userId);
-    public void Delete(T entity, int userId);
+    public Task<bool> DeleteByIdAsync(int id, int userId);
 }

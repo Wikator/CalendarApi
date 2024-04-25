@@ -240,7 +240,7 @@ public class AuthorizedCrudRepositoryTests : RepositoryTestsBase
         await Context.SaveChangesAsync();
 
         // Act
-        repository.Delete(note, 1);
+        await repository.DeleteByIdAsync(note.Id, 1);
         await Context.SaveChangesAsync();
 
         // Assert

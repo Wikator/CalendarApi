@@ -23,30 +23,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
         if (predicate is not null)
             query = query.Where(predicate);
 
-        if (userId is null)
-            return await query
-                .Select(s => new ScheduledClass
-                {
-                    Id = s.Id,
-                    SubjectId = s.SubjectId,
-                    Subject = s.Subject,
-                    StartTime = s.StartTime,
-                    EndTime = s.EndTime,
-                    IsCancelled = s.IsCancelled,
-                    Notes = s.Notes.Where(n => n.UserId == userId).ToList()
-                })
-                .ProjectTo<TDto>(Mapper.ConfigurationProvider)
-                .ToListAsync();
-        
-        
-        var user = await context.Set<User>()
-            .SingleOrDefaultAsync(u => u.Id == userId);
-        
         query = query
-            .Where(s => s.Subject!.FacultyType == 0 || s.SubjectId == user!.Faculty1Id
-                                                    || s.SubjectId == user.Faculty2Id || s.SubjectId == user.Faculty3Id);
-
-        return await query
             .Select(s => new ScheduledClass
             {
                 Id = s.Id,
@@ -56,7 +33,25 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
                 EndTime = s.EndTime,
                 IsCancelled = s.IsCancelled,
                 Notes = s.Notes.Where(n => n.UserId == userId).ToList()
-            })
+            });
+        
+        if (userId is null)
+            return await query.ProjectTo<TDto>(Mapper.ConfigurationProvider).ToListAsync();
+        
+        var user = await context.Set<User>()
+            .FindAsync(userId);
+
+        if (user is null)
+            throw new Exception();
+        
+        query = query
+            .Where(s =>
+                s.Subject!.FacultyType == 0 ||
+                s.SubjectId == user.Faculty1Id ||
+                s.SubjectId == user.Faculty2Id ||
+                s.SubjectId == user.Faculty3Id);
+
+        return await query
             .ProjectTo<TDto>(Mapper.ConfigurationProvider)
             .ToListAsync();
     }

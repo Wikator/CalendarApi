@@ -33,7 +33,7 @@ public class NotesController(
         return note is null ? NotFound() : Ok(note);
     }
     
-    [HttpPost("api/scheduled-classes/{id:int}/notes")]
+    [HttpPost("scheduled-classes/{id:int}/notes")]
     public async Task<IActionResult> Create(int id, UpsertNoteDto upsertNoteDto, IMapper mapper)
     {
         if (!await unitOfWork.ScheduledClassRepository.ExistsAsync(s => s.Id == id))
@@ -51,7 +51,7 @@ public class NotesController(
         return CreatedAtAction(nameof(GetById), new { id = noteDto.Id }, noteDto);
     }
     
-    [HttpPut("/notes/{id:int}")]
+    [HttpPut("notes/{id:int}")]
     public async Task<IActionResult> Update(int id, UpsertNoteDto upsertNoteDto, IMapper mapper)
     {
         var note = await unitOfWork.NoteRepository.GetByIdAsync(id,
@@ -69,7 +69,7 @@ public class NotesController(
         return Ok(noteDto);
     }
     
-    [HttpDelete("/notes/{id:int}")]
+    [HttpDelete("notes/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         if (!await unitOfWork.NoteRepository.DeleteByIdAsync(id, claimsProvider.GetUserId(User)))

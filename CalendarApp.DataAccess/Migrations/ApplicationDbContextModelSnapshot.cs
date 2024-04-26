@@ -46,7 +46,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notes");
+                    b.ToTable("Notes", (string)null);
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.ScheduledClass", b =>
@@ -71,7 +71,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("ScheduledClasses");
+                    b.ToTable("ScheduledClasses", (string)null);
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.Subject", b =>
@@ -89,7 +89,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.Test", b =>
@@ -118,7 +118,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Tests");
+                    b.ToTable("Tests", (string)null);
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.User", b =>
@@ -160,7 +160,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("Faculty3Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.Note", b =>

@@ -22,6 +22,8 @@ public class AutoMapperProfiles : Profile
         CreateMap<Note, NoteDto>();
 
         CreateMap<Test, TestDto>();
-        CreateMap<UpsertTestDto, Test>();
+        CreateMap<Test, TestWithoutSubjectDto>();
+        CreateMap<CreateTestDto, Test>();
+        CreateMap<UpdateTestDto, Test>();
     }
 }

@@ -19,7 +19,7 @@ POST {{CalendarApp.Api_HostAddress}}/api/account/login
 Content-Type: application/json
 
 {
-  "username": "Admn",
+  "username": "Admin",
   "password": "Pa$$w0rd"
 }
 
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 POST {{CalendarApp.Api_HostAddress}}/api/subjects
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzg2MjA4MSwiZXhwIjoxNzE0NDY2ODgxLCJpYXQiOjE3MTM4NjIwODF9.UtJk3fNxwJ85gUBeyKe5PywY4feDm-OhCkpEUc5joGroHi1FHkQM_0CHEJIhJaCSd0CgLKoxaTawcSS9bV3O1w
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNTkxMiwiZXhwIjoxNzE0NzIwNzEyLCJpYXQiOjE3MTQxMTU5MTJ9.bcQkPM6I94Ho6rMv69ltDwFql3tdhpfGx15Bnt0enZRfew4KZXMY3OlTAjp0kq7tzs0KERq2zK_DN5Anoh9g2g
 
 {
   "name": "Kryptografia",
@@ -38,18 +38,19 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 GET {{CalendarApp.Api_HostAddress}}/api/subjects
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzI4MDY0NiwiZXhwIjoxNzEzODg1NDQ2LCJpYXQiOjE3MTMyODA2NDZ9.BVPTQccZqerSiKfcyBOH72luv2pB2gTGOIkQ3NGq7cqZyKkwZun_F0w4W4-rrDhva3cxxLl5xtRudLJ0RDeYHA
 
 ###
 
 GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzI4MDY0NiwiZXhwIjoxNzEzODg1NDQ2LCJpYXQiOjE3MTMyODA2NDZ9.BVPTQccZqerSiKfcyBOH72luv2pB2gTGOIkQ3NGq7cqZyKkwZun_F0w4W4-rrDhva3cxxLl5xtRudLJ0RDeYHA
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNzYxNCwiZXhwIjoxNzE0NzIyNDE0LCJpYXQiOjE3MTQxMTc2MTR9.CIOGlK4-pegf6CrVPFr-x_c_gKq1mZNAHozdXncS6QyqAJeQgCl4WqJfLToTp8gWHmcGhvHL8sENYNrKK8jFjQ
+
 
 ###
 
 POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDA0MjkzNCwiZXhwIjoxNzE0NjQ3NzM0LCJpYXQiOjE3MTQwNDI5MzR9.g_Oz9LpAcMjtIS05v_OlGMmXU7YXVKH0T1HuHgnuu-K7MaRGlfpjigT0UltSPAwoIPb4VqLIv9NLmpItQH5NSw
 
 {
     "subjectId": 1,
@@ -79,7 +80,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/1/notes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluMyIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTcxMzg2MjQ2MiwiZXhwIjoxNzE0NDY3MjYyLCJpYXQiOjE3MTM4NjI0NjJ9.oE8tx3r3P9CMkaOcqQ68qAtK4qcE5fpJtR_9_C5GlXpQa0MR3NMESDkBtalwHYS9F25zPPODKM8wN45rhCyBoQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNzYxNCwiZXhwIjoxNzE0NzIyNDE0LCJpYXQiOjE3MTQxMTc2MTR9.CIOGlK4-pegf6CrVPFr-x_c_gKq1mZNAHozdXncS6QyqAJeQgCl4WqJfLToTp8gWHmcGhvHL8sENYNrKK8jFjQ
 
 {
   "title": "Test Note",
@@ -90,7 +91,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/1/notes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzI4MDY0NiwiZXhwIjoxNzEzODg1NDQ2LCJpYXQiOjE3MTMyODA2NDZ9.BVPTQccZqerSiKfcyBOH72luv2pB2gTGOIkQ3NGq7cqZyKkwZun_F0w4W4-rrDhva3cxxLl5xtRudLJ0RDeYHA
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNzYxNCwiZXhwIjoxNzE0NzIyNDE0LCJpYXQiOjE3MTQxMTc2MTR9.CIOGlK4-pegf6CrVPFr-x_c_gKq1mZNAHozdXncS6QyqAJeQgCl4WqJfLToTp8gWHmcGhvHL8sENYNrKK8jFjQ
 
 
 ###
@@ -108,8 +109,26 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 POST {{CalendarApp.Api_HostAddress}}/api/tests
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDA0MjkzNCwiZXhwIjoxNzE0NjQ3NzM0LCJpYXQiOjE3MTQwNDI5MzR9.g_Oz9LpAcMjtIS05v_OlGMmXU7YXVKH0T1HuHgnuu-K7MaRGlfpjigT0UltSPAwoIPb4VqLIv9NLmpItQH5NSw
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNTkxMiwiZXhwIjoxNzE0NzIwNzEyLCJpYXQiOjE3MTQxMTU5MTJ9.bcQkPM6I94Ho6rMv69ltDwFql3tdhpfGx15Bnt0enZRfew4KZXMY3OlTAjp0kq7tzs0KERq2zK_DN5Anoh9g2g
 
 {
-  "title": "Test1"
+  "subjectId": 4,
+  "title": "Test1",
+  "startTime": "2021-03-03"
 }
+
+###
+
+PUT {{CalendarApp.Api_HostAddress}}/api/tests/3
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNTkxMiwiZXhwIjoxNzE0NzIwNzEyLCJpYXQiOjE3MTQxMTU5MTJ9.bcQkPM6I94Ho6rMv69ltDwFql3tdhpfGx15Bnt0enZRfew4KZXMY3OlTAjp0kq7tzs0KERq2zK_DN5Anoh9g2g
+
+{
+  "title": "Test2",
+  "startTime": "2021-03-03"
+}
+###
+
+DELETE {{CalendarApp.Api_HostAddress}}/api/tests/8
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNyIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDExNTkxMiwiZXhwIjoxNzE0NzIwNzEyLCJpYXQiOjE3MTQxMTU5MTJ9.bcQkPM6I94Ho6rMv69ltDwFql3tdhpfGx15Bnt0enZRfew4KZXMY3OlTAjp0kq7tzs0KERq2zK_DN5Anoh9g2g

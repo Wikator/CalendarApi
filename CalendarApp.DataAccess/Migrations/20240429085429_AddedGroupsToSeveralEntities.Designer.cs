@@ -3,6 +3,7 @@ using System;
 using CalendarApp.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CalendarApp.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240429085429_AddedGroupsToSeveralEntities")]
+    partial class AddedGroupsToSeveralEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.2");
@@ -46,7 +49,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notes", (string)null);
+                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.ScheduledClass", b =>
@@ -74,7 +77,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("ScheduledClasses", (string)null);
+                    b.ToTable("ScheduledClasses");
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.Subject", b =>
@@ -92,7 +95,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.Test", b =>
@@ -124,7 +127,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Tests", (string)null);
+                    b.ToTable("Tests");
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.User", b =>
@@ -169,7 +172,7 @@ namespace CalendarApp.DataAccess.Migrations
 
                     b.HasIndex("Faculty3Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CalendarApp.Models.Entities.Note", b =>

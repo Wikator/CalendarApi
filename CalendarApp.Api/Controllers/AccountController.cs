@@ -29,14 +29,15 @@ public class AccountController(
             Username = registerDto.Username,
             PasswordHash = passwordHash,
             PasswordSalt = passwordSalt,
-            Role = registerDto.Username == "Admin" ? "Admin" : "User"
+            Role = registerDto.Username == "Admin" ? "Admin" : "User",
+            Group = registerDto.Group!.Value
         };
-
+        
         unitOfWork.UserRepository.Register(user);
 
         if (!await unitOfWork.SaveChangesAsync())
             return UnprocessableEntity(new ErrorMessage("Failed to register user."));
-
+        
         var userDto = mapper.Map<UserDto>(user);
         var userWithTokenDto = userDto.ToUserWithTokenDto(tokenService.CreateToken(userDto));
         return Ok(userWithTokenDto);

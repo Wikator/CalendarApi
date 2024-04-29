@@ -39,22 +39,22 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     public async Task<IActionResult> Create(UpsertScheduledClassDto upsertScheduledClassDto,
         IMapper mapper)
     {
-       var scheduledClass = mapper.Map<ScheduledClass>(upsertScheduledClassDto);
+        var scheduledClass = mapper.Map<ScheduledClass>(upsertScheduledClassDto);
 
-       var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(
+        var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(
            upsertScheduledClassDto.SubjectId!.Value);
 
-       if (subjectDto is null)
+        if (subjectDto is null)
            return UnprocessableEntity(new ErrorMessage("Invalid subject id"));
-        
-       unitOfWork.ScheduledClassRepository.Add(scheduledClass);
 
-       if (!await unitOfWork.SaveChangesAsync())
+        unitOfWork.ScheduledClassRepository.Add(scheduledClass);
+
+        if (!await unitOfWork.SaveChangesAsync())
            return UnprocessableEntity("Failed to create scheduled class.");
-        
-       var scheduledClassDto = mapper.Map<ScheduledClassDto>(scheduledClass);
-       scheduledClassDto.Subject = subjectDto;
-       return CreatedAtAction(nameof(GetById), new { id = scheduledClassDto.Id}, scheduledClassDto);
+
+        var scheduledClassDto = mapper.Map<ScheduledClassDto>(scheduledClass);
+        scheduledClassDto.Subject = subjectDto;
+        return CreatedAtAction(nameof(GetById), new { id = scheduledClassDto.Id}, scheduledClassDto);
     }
     
     [HttpPut("{id:int}")]

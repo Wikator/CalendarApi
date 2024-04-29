@@ -30,6 +30,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
                     Id = s.Id,
                     SubjectId = s.SubjectId,
                     Subject = s.Subject,
+                    Group = s.Group,
                     StartTime = s.StartTime,
                     EndTime = s.EndTime,
                     IsCancelled = s.IsCancelled,
@@ -41,6 +42,9 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
         
         var user = await context.Set<User>()
             .SingleOrDefaultAsync(u => u.Id == userId);
+
+        query = query
+            .Where(s => s.Group == user!.Group);
         
         query = query
             .Where(s => s.Subject!.FacultyType == 0 || s.SubjectId == user!.Faculty1Id
@@ -52,6 +56,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
                 Id = s.Id,
                 SubjectId = s.SubjectId,
                 Subject = s.Subject,
+                Group = s.Group,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime,
                 IsCancelled = s.IsCancelled,
@@ -90,6 +95,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
                 Id = s.Id,
                 SubjectId = s.SubjectId,
                 Subject = s.Subject,
+                Group = s.Group,
                 StartTime = s.StartTime,
                 EndTime = s.EndTime,
                 IsCancelled = s.IsCancelled,

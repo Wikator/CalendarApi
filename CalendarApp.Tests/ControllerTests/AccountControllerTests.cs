@@ -32,7 +32,8 @@ public class AccountControllerTests
         var registerDto = new RegisterDto
         {
             Username = "TestUser",
-            Password = "TestPassword"
+            Password = "TestPassword",
+            Group = 1
         };
 
         UnitOfWorkMock.Setup(x => x.UserRepository.Register(It.IsAny<User>()));
@@ -60,7 +61,8 @@ public class AccountControllerTests
         var registerDto = new RegisterDto
         {
             Username = "TestUser",
-            Password = "TestPassword"
+            Password = "TestPassword",
+            Group = 1
         };
 
         var mapper = new Mock<IMapper>();

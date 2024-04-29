@@ -35,6 +35,11 @@ public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudReposit
         return await Entities.FindAsync(id);
     }
 
+    public async Task<T?> GetByIdAsync(int id, Expression<Func<T, object?>> include)
+    {
+        return await Entities.Include(include).SingleOrDefaultAsync(e => e.Id == id);
+    }
+
     public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate)
     {
         return await Entities.AnyAsync(predicate);

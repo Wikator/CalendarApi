@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CalendarApp.Models.Dtos.Requests;
 
-public class UpsertTestDto
+public abstract class UpsertTestDto
 {
-    [Required] public int? SubjectId { get; init; }
     [Range(1, 4)] public int? Group { get; init; }
     [Required] public string Title { get; init; } = "";
     public string? Description { get; init; }

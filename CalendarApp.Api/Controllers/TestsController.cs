@@ -25,14 +25,14 @@ public class TestsController(IUnitOfWork unitOfWork) : ControllerBase
     
     [HttpPost]
     [Authorize(Policy = "RequireAdminRole")]
-    public async Task<IActionResult> Create(UpsertTestDto upsertTestDto, IMapper mapper)
+    public async Task<IActionResult> Create(CreateTestDto createTestDto, IMapper mapper)
     {
-        var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(upsertTestDto.SubjectId!.Value);
+        var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(createTestDto.SubjectId!.Value);
 
         if (subjectDto is null)
             return UnprocessableEntity(new ErrorMessage("Invalid subject id"));
 
-        var test = mapper.Map<Test>(upsertTestDto);
+        var test = mapper.Map<Test>(createTestDto);
         unitOfWork.TestRepository.Add(test);
 
         if (!await unitOfWork.SaveChangesAsync())
@@ -41,5 +41,39 @@ public class TestsController(IUnitOfWork unitOfWork) : ControllerBase
         var testDto = mapper.Map<TestDto>(test);
         testDto.Subject = subjectDto;
         return CreatedAtAction(nameof(GetById), new { id = testDto.Id }, testDto);
+    }
+
+    [HttpPut("{id:int}")]
+    [Authorize(Policy = "RequireAdminRole")]
+    public async Task<IActionResult> Update(int id, UpdateTestDto updateTestDto, IMapper mapper)
+    {
+        var test = await unitOfWork.TestRepository.GetByIdAsync(id, t => t.Subject);
+
+        if (test is null)
+            return NotFound();
+
+        mapper.Map(updateTestDto, test);
+
+        if (!await unitOfWork.SaveChangesAsync())
+            return UnprocessableEntity(new ErrorMessage("Failed to update test"));
+
+        return Ok(mapper.Map<TestDto>(test));
+    }
+
+    [HttpDelete("{id:int}")]
+    [Authorize(Policy = "RequireAdminRole")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var test = await unitOfWork.TestRepository.GetByIdAsync(id);
+
+        if (test is null)
+            return NotFound();
+        
+        unitOfWork.TestRepository.Delete(test);
+
+        if (!await unitOfWork.SaveChangesAsync())
+            return UnprocessableEntity(new ErrorMessage("Failed to delete test"));
+
+        return NoContent();
     }
 }

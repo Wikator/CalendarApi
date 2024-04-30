@@ -5,10 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
+// ReSharper disable once SuggestBaseTypeForParameterInConstructor
 public class UnitOfWork(ApplicationDbContext dbContext, IMapper mapper) : IUnitOfWork
 {
-    private DbContext DbContext { get; } = dbContext;
-
     public IUserRepository UserRepository { get; } = new UserRepository(dbContext, mapper);
     public ICrudRepository<Subject> SubjectRepository { get; } = new CrudRepository<Subject>(dbContext, mapper);
     public ICrudRepository<Test> TestRepository { get; } = new CrudRepository<Test>(dbContext, mapper);
@@ -20,6 +19,6 @@ public class UnitOfWork(ApplicationDbContext dbContext, IMapper mapper) : IUnitO
 
     public async Task<bool> SaveChangesAsync()
     {
-        return await DbContext.SaveChangesAsync() > 0;
+        return await dbContext.SaveChangesAsync() > 0;
     }
 }

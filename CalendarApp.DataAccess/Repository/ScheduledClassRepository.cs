@@ -9,8 +9,8 @@ namespace CalendarApp.DataAccess.Repository;
 
 public class ScheduledClassRepository(DbContext context, IMapper mapper) : IScheduledClassRepository
 {
-    private IMapper Mapper { get; } = mapper;
     private DbSet<ScheduledClass> Entities { get; } = context.Set<ScheduledClass>();
+    private IConfigurationProvider MapperConfiguration { get; } = mapper.ConfigurationProvider;
 
     public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int? userId,
         Expression<Func<ScheduledClass, bool>>? predicate = null)
@@ -28,7 +28,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
         
         return await query
             .Select(ExcludeNonUserNotes(userId))
-            .ProjectTo<TDto>(Mapper.ConfigurationProvider)
+            .ProjectTo<TDto>(MapperConfiguration)
             .ToListAsync();
     }
 
@@ -38,7 +38,7 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
             .Where(e => e.Id == id)
             .Include(s => s.Notes)
             .Select(ExcludeNonUserNotes(userId))
-            .ProjectTo<TDto>(Mapper.ConfigurationProvider)
+            .ProjectTo<TDto>(MapperConfiguration)
             .SingleOrDefaultAsync();
     }
 

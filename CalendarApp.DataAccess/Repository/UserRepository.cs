@@ -8,10 +8,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
-public class UserRepository(DbContext dbContext, IMapper mapper) : IUserRepository
+public class UserRepository(DbContext dbContext, IMapperBase mapper) : IUserRepository
 {
     private DbSet<User> Users { get; } = dbContext.Set<User>();
-    private IMapper Mapper { get; } = mapper;
 
     public void Register(User user)
     {
@@ -28,6 +27,6 @@ public class UserRepository(DbContext dbContext, IMapper mapper) : IUserReposito
         using HMACSHA512 hmac = new(user.PasswordSalt);
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
-        return computedHash.Where((t, i) => t != user.PasswordHash[i]).Any() ? null : Mapper.Map<UserDto>(user);
+        return computedHash.Where((t, i) => t != user.PasswordHash[i]).Any() ? null : mapper.Map<UserDto>(user);
     }
 }

@@ -9,7 +9,7 @@ namespace CalendarApp.DataAccess.Repository;
 
 public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudRepository<T> where T : class, IEntity
 {
-    protected IMapper Mapper { get; } = mapper;
+    protected IConfigurationProvider MapperConfiguration { get; } = mapper.ConfigurationProvider;
     protected DbSet<T> Entities { get; } = context.Set<T>();
 
     public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(Expression<Func<T, bool>>? predicate = null)
@@ -19,14 +19,14 @@ public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudReposit
         if (predicate is not null)
             query = query.Where(predicate);
 
-        return await query.ProjectTo<TDto>(Mapper.ConfigurationProvider).ToListAsync();
+        return await query.ProjectTo<TDto>(MapperConfiguration).ToListAsync();
     }
 
     public virtual async Task<TDto?> GetByIdAsync<TDto>(int id)
     {
         return await Entities
             .Where(e => e.Id == id)
-            .ProjectTo<TDto>(Mapper.ConfigurationProvider)
+            .ProjectTo<TDto>(MapperConfiguration)
             .SingleOrDefaultAsync();
     }
 

@@ -58,7 +58,7 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     }
     
     [HttpPut("{id:int}")]
-    [Authorize(Policy = "RequiredAdminRole")]
+    [Authorize(Policy = "RequireAdminRole")]
     public async Task<IActionResult> Update(int id, UpsertScheduledClassDto upsertScheduledClassDto,
         IClaimsProvider claimsProvider, IMapper mapper)
     {

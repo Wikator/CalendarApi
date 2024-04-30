@@ -28,7 +28,7 @@ Content-Type: application/json
 
 POST {{CalendarApp.Api_HostAddress}}/api/subjects
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDM4MzAzMCwiZXhwIjoxNzE0OTg3ODMwLCJpYXQiOjE3MTQzODMwMzB9.emM-Qmc0znCJzXHpl4behn3E-pdI1QupDRAREZ56gW3l7EjpSsIWZRuePdPfoX0CBX7WRUWXdtrS0zUFMcgSyg
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5NzY0MSwiZXhwIjoxNzE1MTAyNDQxLCJpYXQiOjE3MTQ0OTc2NDF9.kgSDlLyoMnz1DLkJvqX72XyqBD5tKFQC-D-sPBTdrSaJHGZrMkRe1pj3Cuftm0fly1QACWT2pcwOEB9dEAL7tw
 
 {
   "name": "Kryptografia",
@@ -44,19 +44,19 @@ Content-Type: application/json
 
 GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDM4MzAzMCwiZXhwIjoxNzE0OTg3ODMwLCJpYXQiOjE3MTQzODMwMzB9.emM-Qmc0znCJzXHpl4behn3E-pdI1QupDRAREZ56gW3l7EjpSsIWZRuePdPfoX0CBX7WRUWXdtrS0zUFMcgSyg
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5ODkyNCwiZXhwIjoxNzE1MTAzNzI0LCJpYXQiOjE3MTQ0OTg5MjR9.-E0m-Sv52wkCfiTu1mRgfBbXBxQLOzG8t9qSrmlwHPmZMBfKPQQsA-k_6J3lvgVM1VjphzSE9L5ZOn21jO9pLQ
 
 ###
 
 POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiNCIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDM4MzAzMCwiZXhwIjoxNzE0OTg3ODMwLCJpYXQiOjE3MTQzODMwMzB9.emM-Qmc0znCJzXHpl4behn3E-pdI1QupDRAREZ56gW3l7EjpSsIWZRuePdPfoX0CBX7WRUWXdtrS0zUFMcgSyg
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5NzY0MSwiZXhwIjoxNzE1MTAyNDQxLCJpYXQiOjE3MTQ0OTc2NDF9.kgSDlLyoMnz1DLkJvqX72XyqBD5tKFQC-D-sPBTdrSaJHGZrMkRe1pj3Cuftm0fly1QACWT2pcwOEB9dEAL7tw
 
 {
     "subjectId": 1,
     "startTime": "2021-01-01T00:00:00",
     "endTime": "2021-01-01T01:00:00",
-    "group": 3
+    "group": 1
 }
 
 ###
@@ -79,9 +79,9 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 ###
 
-POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/1/notes
+POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/4/notes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluMyIsIm5hbWVpZCI6IjYiLCJyb2xlIjoiVXNlciIsIm5iZiI6MTcxMzg2MjQ2MiwiZXhwIjoxNzE0NDY3MjYyLCJpYXQiOjE3MTM4NjI0NjJ9.oE8tx3r3P9CMkaOcqQ68qAtK4qcE5fpJtR_9_C5GlXpQa0MR3NMESDkBtalwHYS9F25zPPODKM8wN45rhCyBoQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5ODkyNCwiZXhwIjoxNzE1MTAzNzI0LCJpYXQiOjE3MTQ0OTg5MjR9.-E0m-Sv52wkCfiTu1mRgfBbXBxQLOzG8t9qSrmlwHPmZMBfKPQQsA-k_6J3lvgVM1VjphzSE9L5ZOn21jO9pLQ
 
 {
   "title": "Test Note",

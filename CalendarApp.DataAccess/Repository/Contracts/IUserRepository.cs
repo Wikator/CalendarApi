@@ -1,4 +1,5 @@
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.User;
 using CalendarApp.Models.Entities;
 
 namespace CalendarApp.DataAccess.Repository.Contracts;

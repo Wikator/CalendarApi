@@ -2,6 +2,7 @@ using AutoMapper;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.Subject;
 using CalendarApp.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

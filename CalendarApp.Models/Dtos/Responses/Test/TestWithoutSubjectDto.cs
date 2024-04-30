@@ -1,4 +1,4 @@
-namespace CalendarApp.Models.Dtos.Responses;
+namespace CalendarApp.Models.Dtos.Responses.Test;
 
 public class TestWithoutSubjectDto
 {

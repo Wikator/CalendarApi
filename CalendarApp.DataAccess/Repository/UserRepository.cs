@@ -3,6 +3,7 @@ using System.Text;
 using AutoMapper;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.User;
 using CalendarApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 

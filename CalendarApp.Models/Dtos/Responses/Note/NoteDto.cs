@@ -1,6 +1,6 @@
-namespace CalendarApp.Models.Dtos.Responses;
+namespace CalendarApp.Models.Dtos.Responses.Note;
 
-public class NoteDto
+public sealed class NoteDto
 {
     public int Id { get; init; }
     public required string Title { get; init; }

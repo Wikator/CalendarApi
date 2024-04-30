@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using CalendarApp.Api.Services.Contracts;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.User;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CalendarApp.Api.Services;

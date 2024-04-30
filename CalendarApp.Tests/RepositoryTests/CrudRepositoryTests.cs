@@ -1,6 +1,7 @@
 using AutoMapper;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.Subject;
 using CalendarApp.Models.Entities;
 using CalendarApp.Tests.RepositoryTests.Base;
 using FluentAssertions;

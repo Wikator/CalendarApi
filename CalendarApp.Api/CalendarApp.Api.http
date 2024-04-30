@@ -52,10 +52,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5NzY0MSwiZXhwIjoxNzE1MTAyNDQxLCJpYXQiOjE3MTQ0OTc2NDF9.kgSDlLyoMnz1DLkJvqX72XyqBD5tKFQC-D-sPBTdrSaJHGZrMkRe1pj3Cuftm0fly1QACWT2pcwOEB9dEAL7tw
+Authorization: {{Token}}
 
 {
-    "subjectId": 1,
+    "subjectId": 10,
     "startTime": "2021-01-01T00:00:00",
     "endTime": "2021-01-01T01:00:00",
     "group": 1
@@ -71,7 +71,8 @@ Authorization: {{Token}}
   "subjectId": 1,
   "group": 1,
   "startTime": "2021-01-01T00:00:00",
-  "endTime": "2021-02-01T01:00:00"
+  "endTime": "2021-02-01T01:00:00",
+  "isCancelled": true
 }
 
 ###
@@ -113,8 +114,10 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 POST {{CalendarApp.Api_HostAddress}}/api/tests
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDA0MjkzNCwiZXhwIjoxNzE0NjQ3NzM0LCJpYXQiOjE3MTQwNDI5MzR9.g_Oz9LpAcMjtIS05v_OlGMmXU7YXVKH0T1HuHgnuu-K7MaRGlfpjigT0UltSPAwoIPb4VqLIv9NLmpItQH5NSw
+Authorization: {{Token}}
 
 {
+  "startTime": "2021-02-01T01:00:00",
+  "subjectId": 1,
   "title": "Test1"
 }

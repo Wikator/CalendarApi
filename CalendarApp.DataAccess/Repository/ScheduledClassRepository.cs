@@ -46,7 +46,6 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
     {
         return await Entities
             .Where(e => e.Id == id)
-            .Include(s => s.Notes)
             .Select(ExcludeNonUserNotes(userId))
             .SingleOrDefaultAsync();
     }

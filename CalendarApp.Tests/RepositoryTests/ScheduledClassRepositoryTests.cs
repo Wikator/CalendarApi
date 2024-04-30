@@ -1,6 +1,7 @@
 using AutoMapper;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.ScheduledClass;
 using CalendarApp.Models.Entities;
 using CalendarApp.Tests.RepositoryTests.Base;
 using FluentAssertions;
@@ -24,7 +25,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await SeedSubjectWithNotes();
         
         // Act
-        var result = (await Repository.GetAllAsync<ScheduledClassDto>(null)).ToList();
+        var result = (await Repository.GetAllAsync<ScheduledClassDetailsDto>(null)).ToList();
         
         // Assert
         result.Should().HaveCount(1);
@@ -54,7 +55,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await Context.SaveChangesAsync();
 
         // Act
-        var result = (await Repository.GetAllAsync<ScheduledClassDto>(userId)).ToList();
+        var result = (await Repository.GetAllAsync<ScheduledClassDetailsDto>(userId)).ToList();
         
         // Assert
         result.Should().HaveCount(1);
@@ -68,7 +69,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await SeedSubjectWithNotes();
         
         // Act
-        var result = await Repository.GetAllAsync<ScheduledClassDto>(null, s => s.IsCancelled);
+        var result = await Repository.GetAllAsync<ScheduledClassDetailsDto>(null, s => s.IsCancelled);
         
         // Arrange
         result.Should().HaveCount(0);
@@ -81,7 +82,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await SeedSubjectWithNotes();
         
         // Act
-        var result = await Repository.GetAllAsync<ScheduledClassDto>(null, s => s.SubjectId == 1);
+        var result = await Repository.GetAllAsync<ScheduledClassDetailsDto>(null, s => s.SubjectId == 1);
         
         // Arrange
         result.Should().HaveCount(1);
@@ -104,7 +105,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await Context.SaveChangesAsync();
         
         // Act
-        var result = await Repository.GetAllAsync<ScheduledClassDto>(1);
+        var result = await Repository.GetAllAsync<ScheduledClassDetailsDto>(1);
         
         // Assert
         result.Should().HaveCount(0);

@@ -5,6 +5,7 @@ using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.User;
 using CalendarApp.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 

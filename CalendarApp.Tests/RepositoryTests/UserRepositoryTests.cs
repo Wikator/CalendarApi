@@ -3,6 +3,8 @@ using AutoMapper;
 using CalendarApp.Api.Configuration;
 using CalendarApp.DataAccess.Repository;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.Subject;
+using CalendarApp.Models.Dtos.Responses.User;
 using CalendarApp.Models.Entities;
 using CalendarApp.Tests.RepositoryTests.Base;
 using FluentAssertions;

@@ -7,10 +7,10 @@ using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.Note;
 using CalendarApp.Models.Entities;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 

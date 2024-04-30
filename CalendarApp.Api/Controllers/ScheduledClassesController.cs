@@ -3,6 +3,7 @@ using CalendarApp.Api.Services.Contracts;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Dtos.Requests;
 using CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.ScheduledClass;
 using CalendarApp.Models.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +23,7 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
 
        var userId = claimsProvider.GetUserIdOrDefault(User);
         
-       return Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDto>(userId,
+       return Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDetailsDto>(userId,
            s => s.StartTime >= startTime && s.StartTime <= endTime));
     }
    
@@ -30,7 +31,7 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     public async Task<IActionResult> GetById(int id, IClaimsProvider claimsProvider)
     {
        var userId = claimsProvider.GetUserIdOrDefault(User);
-       var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync<ScheduledClassDto>(id, userId);
+       var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync<ScheduledClassDetailsDto>(id, userId);
        return scheduledClass is null ? NotFound() : Ok(scheduledClass);
     }
    
@@ -39,21 +40,19 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     public async Task<IActionResult> Create(UpsertScheduledClassDto upsertScheduledClassDto,
         IMapper mapper)
     {
+        if (!await unitOfWork.SubjectRepository.ExistsAsync(s => s.Id == upsertScheduledClassDto.SubjectId))
+        {
+            ModelState.AddModelError("SubjectId", "Subject does not exist");
+            return UnprocessableEntity(ModelState);
+        }
+        
         var scheduledClass = mapper.Map<ScheduledClass>(upsertScheduledClassDto);
-
-        var subjectDto = await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDto>(
-           upsertScheduledClassDto.SubjectId!.Value);
-
-        if (subjectDto is null)
-           return UnprocessableEntity(new ErrorMessage("Invalid subject id"));
-
         unitOfWork.ScheduledClassRepository.Add(scheduledClass);
 
         if (!await unitOfWork.SaveChangesAsync())
            return UnprocessableEntity("Failed to create scheduled class.");
 
         var scheduledClassDto = mapper.Map<ScheduledClassDto>(scheduledClass);
-        scheduledClassDto.Subject = subjectDto;
         return CreatedAtAction(nameof(GetById), new { id = scheduledClassDto.Id}, scheduledClassDto);
     }
     
@@ -68,16 +67,11 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
         if (scheduledClass is null)
             return NotFound();
 
-        SubjectDto? subjectDto = null;
-        if (scheduledClass.SubjectId != upsertScheduledClassDto.SubjectId!.Value)
+        if (scheduledClass.SubjectId != upsertScheduledClassDto.SubjectId &&
+            !await unitOfWork.SubjectRepository.ExistsAsync(s => s.Id == upsertScheduledClassDto.SubjectId))
         {
-            subjectDto = await unitOfWork.SubjectRepository
-                .GetByIdAsync<SubjectDto>(upsertScheduledClassDto.SubjectId!.Value);
-
-            if (subjectDto is null)
-            {
-                return UnprocessableEntity("Invalid subject id");
-            }
+            ModelState.AddModelError("SubjectId", "Subject does not exist");
+            return UnprocessableEntity(ModelState);
         }
 
         mapper.Map(upsertScheduledClassDto, scheduledClass);
@@ -87,9 +81,6 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
             return UnprocessableEntity("Failed to update scheduled class.");
 
         var scheduledClassDto = mapper.Map<ScheduledClassDto>(scheduledClass);
-
-        if (subjectDto is not null)
-            scheduledClassDto.Subject = subjectDto;
         
         return Ok(scheduledClassDto);
     }

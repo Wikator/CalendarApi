@@ -1,4 +1,6 @@
-namespace CalendarApp.Models.Dtos.Responses;
+using CalendarApp.Models.Dtos.Responses.Subject;
+
+namespace CalendarApp.Models.Dtos.Responses.User;
 
 public class UserDto
 {

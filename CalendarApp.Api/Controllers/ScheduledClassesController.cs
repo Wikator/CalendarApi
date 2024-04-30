@@ -81,6 +81,7 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
         }
 
         mapper.Map(upsertScheduledClassDto, scheduledClass);
+        unitOfWork.ScheduledClassRepository.Update(scheduledClass);
 
         if (!await unitOfWork.SaveChangesAsync())
             return UnprocessableEntity("Failed to update scheduled class.");

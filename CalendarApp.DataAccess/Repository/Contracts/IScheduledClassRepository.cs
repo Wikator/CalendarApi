@@ -12,5 +12,6 @@ public interface IScheduledClassRepository
     public Task<ScheduledClass?> GetByIdAsync(int id);
     public Task<bool> ExistsAsync(Expression<Func<ScheduledClass, bool>> predicate);
     public void Add(ScheduledClass entity);
+    public void Update(ScheduledClass entity);
     public void Delete(ScheduledClass entity);
 }

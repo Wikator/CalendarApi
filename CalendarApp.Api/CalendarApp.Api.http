@@ -1,4 +1,6 @@
 @CalendarApp.Api_HostAddress = http://localhost:5196
+@Token = Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5NzY0MSwiZXhwIjoxNzE1MTAyNDQxLCJpYXQiOjE3MTQ0OTc2NDF9.kgSDlLyoMnz1DLkJvqX72XyqBD5tKFQC-D-sPBTdrSaJHGZrMkRe1pj3Cuftm0fly1QACWT2pcwOEB9dEAL7tw
+
 
 GET {{CalendarApp.Api_HostAddress}}/weatherforecast/
 Accept: application/json
@@ -61,14 +63,15 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 ###
 
-PUT {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/1
+PUT {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxMzI4MDY0NiwiZXhwIjoxNzEzODg1NDQ2LCJpYXQiOjE3MTMyODA2NDZ9.BVPTQccZqerSiKfcyBOH72luv2pB2gTGOIkQ3NGq7cqZyKkwZun_F0w4W4-rrDhva3cxxLl5xtRudLJ0RDeYHA
+Authorization: {{Token}}
 
 {
   "subjectId": 1,
+  "group": 1,
   "startTime": "2021-01-01T00:00:00",
-  "endTime": "2021-01-01T01:00:00"
+  "endTime": "2021-02-01T01:00:00"
 }
 
 ###
@@ -79,7 +82,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 ###
 
-POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/4/notes
+POST {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/5/notes
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5ODkyNCwiZXhwIjoxNzE1MTAzNzI0LCJpYXQiOjE3MTQ0OTg5MjR9.-E0m-Sv52wkCfiTu1mRgfBbXBxQLOzG8t9qSrmlwHPmZMBfKPQQsA-k_6J3lvgVM1VjphzSE9L5ZOn21jO9pLQ
 

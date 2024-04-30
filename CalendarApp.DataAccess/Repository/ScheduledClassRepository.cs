@@ -66,6 +66,11 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
         Entities.Add(entity);
     }
 
+    public void Update(ScheduledClass entity)
+    {
+        Entities.Update(entity);
+    }
+
     public void Delete(ScheduledClass entity)
     {
         Entities.Remove(entity);

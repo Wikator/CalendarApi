@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using CalendarApp.DataAccess.Extensions;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -17,25 +17,20 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
     {
         return await Entities
             .Where(u => u.UserId == userId)
-            .Where(predicate)
-            .ProjectTo<TDto>(MapperConfiguration)
-            .ToListAsync();
+            .ToListProjectedAsync<T, TDto>(predicate, MapperConfiguration);
     }
 
     public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int userId)
     {
         return await Entities
             .Where(u => u.UserId == userId)
-            .ProjectTo<TDto>(MapperConfiguration)
-            .ToListAsync();
+            .ToListProjectedAsync<T, TDto>(MapperConfiguration);
     }
 
     public virtual async Task<TDto?> GetByIdAsync<TDto>(int id, int userId)
     {
         return await Entities
-            .Where(e => e.Id == id && e.UserId == userId)
-            .ProjectTo<TDto>(MapperConfiguration)
-            .SingleOrDefaultAsync();
+            .SingleOrDefaultProjectedAsync<T, TDto>(e => e.Id == id && e.UserId == userId, MapperConfiguration);
     }
 
     public virtual async Task<T?> GetByIdAsync(int id, int userId)

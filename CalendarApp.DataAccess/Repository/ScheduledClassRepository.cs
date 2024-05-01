@@ -1,53 +1,35 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using CalendarApp.DataAccess.Extensions;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
-public class ScheduledClassRepository(DbContext context,
+public sealed class ScheduledClassRepository(DbContext context,
     IMapper mapper) : CrudRepository<ScheduledClass>(context, mapper), IScheduledClassRepository
 {
     private readonly DbContext _context = context;
 
-    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int? userId,
+    public async Task<IEnumerable<TDto>> GetAllWithUserNotesAsync<TDto>(int? userId,
         Expression<Func<ScheduledClass, bool>> predicate)
     {
-        var query = Entities
-            .Where(predicate);
-
-        if (userId is not null)
-            query = await GetUserScheduledClasses(query, userId.Value);
-        
-        return await query
-            .Select(ExcludeNonUserNotes(userId))
-            .ProjectTo<TDto>(MapperConfiguration)
-            .ToListAsync();
+        var query = Entities.Where(predicate);
+        return await GetProjectedUserScheduledClasses<TDto>(query, userId);
     }
 
-    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int? userId)
+    public async Task<IEnumerable<TDto>> GetAllWithUserNotesAsync<TDto>(int? userId)
     {
-        var query = Entities
-            .AsQueryable();
-
-        if (userId is not null)
-            query = await GetUserScheduledClasses(query, userId.Value);
-        
-        return await query
-            .Select(ExcludeNonUserNotes(userId))
-            .ProjectTo<TDto>(MapperConfiguration)
-            .ToListAsync();
+        var query = Entities.AsQueryable();
+        return await GetProjectedUserScheduledClasses<TDto>(query, userId);
     }
 
     public async Task<TDto?> GetByIdAsync<TDto>(int id, int? userId)
     {
         return await Entities
-            .Where(e => e.Id == id)
             .Select(ExcludeNonUserNotes(userId))
-            .ProjectTo<TDto>(MapperConfiguration)
-            .SingleOrDefaultAsync();
+            .SingleOrDefaultProjectedAsync<ScheduledClass, TDto>(e => e.Id == id, MapperConfiguration);
     }
 
     public async Task<ScheduledClass?> GetByIdAsync(int id, int? userId)
@@ -88,4 +70,15 @@ public class ScheduledClassRepository(DbContext context,
             IsCancelled = s.IsCancelled,
             Notes = s.Notes.Where(n => n.UserId == userId).ToList()
         };
+    
+    private async Task<IEnumerable<TDto>> GetProjectedUserScheduledClasses<TDto>(
+        IQueryable<ScheduledClass> query, int? userId)
+    {
+        if (userId is not null)
+            query = await GetUserScheduledClasses(query, userId.Value);
+        
+        return await query
+            .Select(ExcludeNonUserNotes(userId))
+            .ToListProjectedAsync<ScheduledClass, TDto>(MapperConfiguration);
+    }
 }

@@ -22,7 +22,7 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
 
        var userId = claimsProvider.GetUserIdOrDefault(User);
         
-       return Ok(await unitOfWork.ScheduledClassRepository.GetAllAsync<ScheduledClassDetailsDto>(userId,
+       return Ok(await unitOfWork.ScheduledClassRepository.GetAllWithUserNotesAsync<ScheduledClassDetailsDto>(userId,
            s => s.StartTime >= startTime && s.StartTime <= endTime));
     }
    

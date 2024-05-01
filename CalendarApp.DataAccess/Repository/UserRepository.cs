@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
-public class UserRepository(DbContext dbContext, IMapperBase mapper) : IUserRepository
+public sealed class UserRepository(DbContext dbContext, IMapperBase mapper) : IUserRepository
 {
     private DbSet<User> Users { get; } = dbContext.Set<User>();
 

@@ -1,6 +1,6 @@
 using System.Linq.Expressions;
 using AutoMapper;
-using AutoMapper.QueryableExtensions;
+using CalendarApp.DataAccess.Extensions;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -15,17 +15,14 @@ public sealed class SubjectRepository(
     {
         return await Entities
             .Select(ExcludeUserIrrelevantTests(group))
-            .ProjectTo<TDto>(MapperConfiguration)
-            .ToListAsync();
+            .ToListProjectedAsync<Subject, TDto>(MapperConfiguration);
     }
 
     public async Task<TDto?> GetByIdAsync<TDto>(int id, int group)
     {
         return await Entities
-            .Where(s => s.Id == id)
             .Select(ExcludeUserIrrelevantTests(group))
-            .ProjectTo<TDto>(MapperConfiguration)
-            .SingleOrDefaultAsync();
+            .SingleOrDefaultProjectedAsync<Subject, TDto>(s => s.Id == id, MapperConfiguration);
     }
 
     private static Expression<Func<Subject, Subject>> ExcludeUserIrrelevantTests(int group) =>

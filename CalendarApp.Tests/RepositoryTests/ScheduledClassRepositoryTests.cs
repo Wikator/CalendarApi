@@ -25,7 +25,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await SeedSubjectWithNotes();
         
         // Act
-        var result = (await Repository.GetAllAsync<ScheduledClassDetailsDto>(null)).ToList();
+        var result = (await Repository.GetAllWithUserNotesAsync<ScheduledClassDetailsDto>(null)).ToList();
         
         // Assert
         result.Should().HaveCount(1);
@@ -55,7 +55,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await Context.SaveChangesAsync();
 
         // Act
-        var result = (await Repository.GetAllAsync<ScheduledClassDetailsDto>(userId)).ToList();
+        var result = (await Repository.GetAllWithUserNotesAsync<ScheduledClassDetailsDto>(userId)).ToList();
         
         // Assert
         result.Should().HaveCount(1);
@@ -69,7 +69,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await SeedSubjectWithNotes();
         
         // Act
-        var result = await Repository.GetAllAsync<ScheduledClassDetailsDto>(null, s => s.IsCancelled);
+        var result = await Repository.GetAllWithUserNotesAsync<ScheduledClassDetailsDto>(null, s => s.IsCancelled);
         
         // Arrange
         result.Should().HaveCount(0);
@@ -82,7 +82,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await SeedSubjectWithNotes();
         
         // Act
-        var result = await Repository.GetAllAsync<ScheduledClassDetailsDto>(null, s => s.SubjectId == 1);
+        var result = await Repository.GetAllWithUserNotesAsync<ScheduledClassDetailsDto>(null, s => s.SubjectId == 1);
         
         // Arrange
         result.Should().HaveCount(1);
@@ -105,7 +105,7 @@ public class ScheduledClassRepositoryTests : RepositoryTestsBase
         await Context.SaveChangesAsync();
         
         // Act
-        var result = await Repository.GetAllAsync<ScheduledClassDetailsDto>(1);
+        var result = await Repository.GetAllWithUserNotesAsync<ScheduledClassDetailsDto>(1);
         
         // Assert
         result.Should().HaveCount(0);

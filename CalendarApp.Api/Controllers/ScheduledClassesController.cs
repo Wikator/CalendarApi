@@ -30,7 +30,8 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     public async Task<IActionResult> GetById(int id, IClaimsProvider claimsProvider)
     {
        var userId = claimsProvider.GetUserIdOrDefault(User);
-       var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync<ScheduledClassDetailsDto>(id, userId);
+       var scheduledClass = await unitOfWork.ScheduledClassRepository
+           .GetByIdWithUserNotesAsync<ScheduledClassDetailsDto>(id, userId);
        return scheduledClass is null ? NotFound() : Ok(scheduledClass);
     }
    
@@ -60,7 +61,7 @@ public class ScheduledClassesController(IUnitOfWork unitOfWork) : ControllerBase
     public async Task<IActionResult> Update(int id, UpsertScheduledClassDto upsertScheduledClassDto,
         IClaimsProvider claimsProvider, IMapper mapper)
     {
-        var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdAsync(id,
+        var scheduledClass = await unitOfWork.ScheduledClassRepository.GetByIdWithUserNotesAsync(id,
             claimsProvider.GetUserId(User));
 
         if (scheduledClass is null)

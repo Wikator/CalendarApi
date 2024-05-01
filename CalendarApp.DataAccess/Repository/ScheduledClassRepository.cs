@@ -25,14 +25,14 @@ public sealed class ScheduledClassRepository(DbContext context,
         return await GetProjectedUserScheduledClasses<TDto>(query, userId);
     }
 
-    public async Task<TDto?> GetByIdAsync<TDto>(int id, int? userId)
+    public async Task<TDto?> GetByIdWithUserNotesAsync<TDto>(int id, int? userId)
     {
         return await Entities
             .Select(ExcludeNonUserNotes(userId))
             .SingleOrDefaultProjectedAsync<ScheduledClass, TDto>(e => e.Id == id, MapperConfiguration);
     }
 
-    public async Task<ScheduledClass?> GetByIdAsync(int id, int? userId)
+    public async Task<ScheduledClass?> GetByIdWithUserNotesAsync(int id, int? userId)
     {
         return await Entities
             .Where(e => e.Id == id)

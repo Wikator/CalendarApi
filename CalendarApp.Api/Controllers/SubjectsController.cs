@@ -21,7 +21,7 @@ public class SubjectsController(IUnitOfWork unitOfWork) : ControllerBase
         var subjects = group switch
         {
             null => await unitOfWork.SubjectRepository.GetAllAsync<SubjectDetailsDto>(),
-            _ => await unitOfWork.SubjectRepository.GetAllAsync<SubjectDetailsDto>(group.Value)
+            _ => await unitOfWork.SubjectRepository.GetAllWithUserTestsAsync<SubjectDetailsDto>(group.Value)
         };
         
         return Ok(subjects);
@@ -34,7 +34,7 @@ public class SubjectsController(IUnitOfWork unitOfWork) : ControllerBase
         var subject = group switch
         {
             null => await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDetailsDto>(id),
-            _ => await unitOfWork.SubjectRepository.GetByIdAsync<SubjectDetailsDto>(id, group.Value)
+            _ => await unitOfWork.SubjectRepository.GetByIdWithUserTestsAsync<SubjectDetailsDto>(id, group.Value)
         };
         
         return subject is null ? NotFound() : Ok(subject);

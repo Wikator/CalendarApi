@@ -11,14 +11,14 @@ public sealed class SubjectRepository(
     DbContext context,
     IMapper mapper) : CrudRepository<Subject>(context, mapper), ISubjectRepository
 {
-    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int group)
+    public async Task<IEnumerable<TDto>> GetAllWithUserTestsAsync<TDto>(int group)
     {
         return await Entities
             .Select(ExcludeUserIrrelevantTests(group))
             .ToListProjectedAsync<Subject, TDto>(MapperConfiguration);
     }
 
-    public async Task<TDto?> GetByIdAsync<TDto>(int id, int group)
+    public async Task<TDto?> GetByIdWithUserTestsAsync<TDto>(int id, int group)
     {
         return await Entities
             .Select(ExcludeUserIrrelevantTests(group))

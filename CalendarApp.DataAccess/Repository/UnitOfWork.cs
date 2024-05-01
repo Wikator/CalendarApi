@@ -1,7 +1,6 @@
 using AutoMapper;
 using CalendarApp.DataAccess.Repository.Contracts;
 using CalendarApp.Models.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
@@ -9,7 +8,7 @@ namespace CalendarApp.DataAccess.Repository;
 public class UnitOfWork(ApplicationDbContext dbContext, IMapper mapper) : IUnitOfWork
 {
     public IUserRepository UserRepository { get; } = new UserRepository(dbContext, mapper);
-    public ICrudRepository<Subject> SubjectRepository { get; } = new CrudRepository<Subject>(dbContext, mapper);
+    public ISubjectRepository SubjectRepository { get; } = new SubjectRepository(dbContext, mapper);
     public ICrudRepository<Test> TestRepository { get; } = new CrudRepository<Test>(dbContext, mapper);
 
     public IScheduledClassRepository ScheduledClassRepository { get; } =

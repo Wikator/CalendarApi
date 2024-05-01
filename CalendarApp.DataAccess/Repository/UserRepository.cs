@@ -2,7 +2,6 @@ using System.Security.Cryptography;
 using System.Text;
 using AutoMapper;
 using CalendarApp.DataAccess.Repository.Contracts;
-using CalendarApp.Models.Dtos.Responses;
 using CalendarApp.Models.Dtos.Responses.User;
 using CalendarApp.Models.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -29,5 +28,13 @@ public class UserRepository(DbContext dbContext, IMapperBase mapper) : IUserRepo
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 
         return computedHash.Where((t, i) => t != user.PasswordHash[i]).Any() ? null : mapper.Map<UserDto>(user);
+    }
+
+    public async Task<int> GetGroupByUserIdAsync(int userId)
+    {
+        return await Users
+            .Where(u => u.Id == userId)
+            .Select(u => u.Group)
+            .SingleAsync();
     }
 }

@@ -5,7 +5,8 @@ namespace CalendarApp.DataAccess.Repository.Contracts;
 
 public interface ICrudRepository<T> where T : class, IEntity
 {
-    public Task<IEnumerable<TDto>> GetAllAsync<TDto>(Expression<Func<T, bool>>? predicate = null);
+    public Task<IEnumerable<TDto>> GetAllAsync<TDto>(Expression<Func<T, bool>> predicate);
+    public Task<IEnumerable<TDto>> GetAllAsync<TDto>();
     public Task<TDto?> GetByIdAsync<TDto>(int id);
     public Task<T?> GetByIdAsync(int id);
     public Task<T?> GetByIdAsync(int id, Expression<Func<T, object?>> include);

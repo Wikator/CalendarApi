@@ -12,14 +12,19 @@ public class CrudRepository<T>(DbContext context, IMapper mapper) : ICrudReposit
     protected IConfigurationProvider MapperConfiguration { get; } = mapper.ConfigurationProvider;
     protected DbSet<T> Entities { get; } = context.Set<T>();
 
-    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(Expression<Func<T, bool>>? predicate = null)
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(Expression<Func<T, bool>> predicate)
     {
-        var query = Entities.AsQueryable();
+        return await Entities
+            .Where(predicate)
+            .ProjectTo<TDto>(MapperConfiguration)
+            .ToListAsync();
+    }
 
-        if (predicate is not null)
-            query = query.Where(predicate);
-
-        return await query.ProjectTo<TDto>(MapperConfiguration).ToListAsync();
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>()
+    {
+        return await Entities
+            .ProjectTo<TDto>(MapperConfiguration)
+            .ToListAsync();
     }
 
     public virtual async Task<TDto?> GetByIdAsync<TDto>(int id)

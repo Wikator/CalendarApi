@@ -41,12 +41,13 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6I
 
 GET {{CalendarApp.Api_HostAddress}}/api/subjects
 Content-Type: application/json
+Authorization: {{Token}}
 
 ###
 
-GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes
+GET {{CalendarApp.Api_HostAddress}}/api/scheduled-classes/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkFkbWluIiwibmFtZWlkIjoiMSIsInJvbGUiOiJBZG1pbiIsIm5iZiI6MTcxNDQ5ODkyNCwiZXhwIjoxNzE1MTAzNzI0LCJpYXQiOjE3MTQ0OTg5MjR9.-E0m-Sv52wkCfiTu1mRgfBbXBxQLOzG8t9qSrmlwHPmZMBfKPQQsA-k_6J3lvgVM1VjphzSE9L5ZOn21jO9pLQ
+Authorization: {{Token}}
 
 ###
 
@@ -119,5 +120,6 @@ Authorization: {{Token}}
 {
   "startTime": "2021-02-01T01:00:00",
   "subjectId": 1,
-  "title": "Test1"
+  "title": "Test1",
+  "group": 4
 }

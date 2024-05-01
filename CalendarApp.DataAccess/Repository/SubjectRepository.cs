@@ -1,0 +1,39 @@
+using System.Linq.Expressions;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using CalendarApp.DataAccess.Repository.Contracts;
+using CalendarApp.Models.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace CalendarApp.DataAccess.Repository;
+
+public sealed class SubjectRepository(
+    DbContext context,
+    IMapper mapper) : CrudRepository<Subject>(context, mapper), ISubjectRepository
+{
+    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int group)
+    {
+        return await Entities
+            .Select(ExcludeUserIrrelevantTests(group))
+            .ProjectTo<TDto>(MapperConfiguration)
+            .ToListAsync();
+    }
+
+    public async Task<TDto?> GetByIdAsync<TDto>(int id, int group)
+    {
+        return await Entities
+            .Where(s => s.Id == id)
+            .Select(ExcludeUserIrrelevantTests(group))
+            .ProjectTo<TDto>(MapperConfiguration)
+            .SingleOrDefaultAsync();
+    }
+
+    private static Expression<Func<Subject, Subject>> ExcludeUserIrrelevantTests(int group) =>
+        s => new Subject
+        {
+            FacultyType = s.FacultyType,
+            Id = s.Id,
+            Name = s.Name,
+            Tests = s.Tests.Where(t => t.Group == null || t.Group == group).ToList()
+        };
+}

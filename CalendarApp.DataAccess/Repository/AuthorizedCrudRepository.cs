@@ -13,14 +13,21 @@ public class AuthorizedCrudRepository<T>(DbContext context, IMapper mapper) :
     protected IConfigurationProvider MapperConfiguration { get; } = mapper.ConfigurationProvider;
     protected DbSet<T> Entities { get; } = context.Set<T>();
 
-    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int id, Expression<Func<T, bool>>? predicate = null)
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int userId, Expression<Func<T, bool>> predicate)
     {
-        var query = Entities.Where(e => e.UserId == id);
+        return await Entities
+            .Where(u => u.UserId == userId)
+            .Where(predicate)
+            .ProjectTo<TDto>(MapperConfiguration)
+            .ToListAsync();
+    }
 
-        if (predicate is not null)
-            query = query.Where(predicate);
-
-        return await query.ProjectTo<TDto>(MapperConfiguration).ToListAsync();
+    public virtual async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int userId)
+    {
+        return await Entities
+            .Where(u => u.UserId == userId)
+            .ProjectTo<TDto>(MapperConfiguration)
+            .ToListAsync();
     }
 
     public virtual async Task<TDto?> GetByIdAsync<TDto>(int id, int userId)

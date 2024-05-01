@@ -7,21 +7,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp.DataAccess.Repository;
 
-public class ScheduledClassRepository(DbContext context, IMapper mapper) : IScheduledClassRepository
+public class ScheduledClassRepository(DbContext context,
+    IMapper mapper) : CrudRepository<ScheduledClass>(context, mapper), IScheduledClassRepository
 {
-    private DbSet<ScheduledClass> Entities { get; } = context.Set<ScheduledClass>();
-    private IConfigurationProvider MapperConfiguration { get; } = mapper.ConfigurationProvider;
+    private readonly DbContext _context = context;
 
     public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int? userId,
-        Expression<Func<ScheduledClass, bool>>? predicate = null)
+        Expression<Func<ScheduledClass, bool>> predicate)
     {
         var query = Entities
-            .Include(s => s.Notes)
-            .Include(s => s.Subject)
-            .AsQueryable();
+            .Where(predicate);
+
+        if (userId is not null)
+            query = await GetUserScheduledClasses(query, userId.Value);
         
-        if (predicate is not null)
-            query = query.Where(predicate);
+        return await query
+            .Select(ExcludeNonUserNotes(userId))
+            .ProjectTo<TDto>(MapperConfiguration)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<TDto>> GetAllAsync<TDto>(int? userId)
+    {
+        var query = Entities
+            .AsQueryable();
 
         if (userId is not null)
             query = await GetUserScheduledClasses(query, userId.Value);
@@ -36,7 +45,6 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
     {
         return await Entities
             .Where(e => e.Id == id)
-            .Include(s => s.Notes)
             .Select(ExcludeNonUserNotes(userId))
             .ProjectTo<TDto>(MapperConfiguration)
             .SingleOrDefaultAsync();
@@ -50,35 +58,15 @@ public class ScheduledClassRepository(DbContext context, IMapper mapper) : ISche
             .SingleOrDefaultAsync();
     }
 
-    public async Task<ScheduledClass?> GetByIdAsync(int id)
+    public void Update(ScheduledClass scheduledClass)
     {
-        return await Entities.SingleOrDefaultAsync(e => e.Id == id);
-    }
-
-    public async Task<bool> ExistsAsync(Expression<Func<ScheduledClass, bool>> predicate)
-    {
-        return await Entities.AnyAsync(predicate);
-    }
-
-    public void Add(ScheduledClass entity)
-    {
-        Entities.Add(entity);
-    }
-
-    public void Update(ScheduledClass entity)
-    {
-        Entities.Update(entity);
-    }
-
-    public void Delete(ScheduledClass entity)
-    {
-        Entities.Remove(entity);
+        Entities.Update(scheduledClass);
     }
 
     private async Task<IQueryable<ScheduledClass>> GetUserScheduledClasses(IQueryable<ScheduledClass> query,
         int userId)
     {
-        var user = await context.Set<User>()
+        var user = await _context.Set<User>()
             .FindAsync(userId);
         
         return query.Where(s => s.Group == user!.Group &&
